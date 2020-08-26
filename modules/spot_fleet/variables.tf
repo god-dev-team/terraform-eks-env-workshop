@@ -3,18 +3,18 @@ variable "name" {
 }
 
 variable "subnet_id" {
-    default = "subnet-0ff2f067a2a919eaf"
+    default = ""
 }
 
 variable "ssh_key" {
      default = "jenkins"
 }
 variable "security_group_ids" {
-  default = "sg-025c99f08473a025c"
+  default = ""
 }
 
 variable "iam_instance_profile_arn" {
-  default = "arn:aws:iam::668513794466:instance-profile/jenkins-slave-spot-SpotFleetInstanceProfile"
+  default = ""
 }
 variable "capacity" {
   default = 1

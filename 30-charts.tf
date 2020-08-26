@@ -33,6 +33,7 @@ module "keycloak" {
   source                        = "./modules/keycloak"
   codecentric_keycloak_version  = var.codecentric_keycloak
   module_depends_on             = [module.monitoring.prometheus-operator]
+  domains                       = var.domains
 }
 
 module "istio" {

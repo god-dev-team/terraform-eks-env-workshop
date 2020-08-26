@@ -1,14 +1,15 @@
 variable "name" {
-    default = "jenkins-spot"
+  default = "jenkins-spot"
 }
 
 variable "subnet_id" {
-    default = ""
+  default = ""
 }
 
 variable "ssh_key" {
-     default = "jenkins"
+  default = "jenkins"
 }
+
 variable "security_group_ids" {
   default = ""
 }

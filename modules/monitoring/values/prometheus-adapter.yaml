@@ -1,0 +1,18 @@
+nameOverride: prometheus-adapter
+
+prometheus:
+  url: "http://prometheus-operator-prometheus.monitor.svc"
+  port: 9090
+
+rules:
+  default: true
+  custom:
+    - seriesQuery: 'container_network_receive_bytes_total{namespace!="",pod!=""}'
+      resources:
+        overrides:
+          namespace: { resource: "namespace" }
+          pod: { resource: "pod" }
+      name:
+        matches: "^(.*)_total"
+        as: "${1}"
+      metricsQuery: "sum(rate(<<.Series>>{<<.LabelMatchers>>}[2m])) by (<<.GroupBy>>)"

@@ -1,0 +1,22 @@
+nameOverride: kiali-gatekeeper
+
+discoveryURL: https://keycloak.godapp.de/auth/realms/demo
+
+upstreamURL: http://kiali-gatekeeper.istio-system.svc.cluster.local:20001
+
+ClientID: kiali
+ClientSecret: 746b5179-2b86-4c5c-8b1f-440e893f650b
+
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/whitelist-source-range: "0.0.0.0/0"
+  hosts:
+    - "kiali-istio.godapp.de"
+  tls:
+    - secretName: kiali-tls
+      hosts:
+        - "kiali-istio.godapp.de"

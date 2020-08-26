@@ -1,0 +1,56 @@
+fullnameOverride: prometheus-operator
+
+prometheusOperator:
+  createCustomResource: false
+
+prometheus:
+  prometheusSpec:
+    scrapeInterval: 30s
+
+
+    ruleSelector:
+      matchLabels:
+        role: alert-rules
+
+grafana:
+  enabled: false
+
+kubeStateMetrics:
+  enabled: true
+
+alertmanager:
+  enabled: true
+
+  # config:
+  #   global:
+  #     resolve_timeout: 5m
+  #     slack_api_url: "https://hooks.slack.com/services/XXXXX/XXXXX/XXXXX"
+  #   route:
+  #     # group_by: ["job"]
+  #     group_wait: 30s
+  #     group_interval: 5m
+  #     repeat_interval: 12h
+  #     # receiver: "slack"
+  #     routes:
+  #       - match:
+  #           alertname: Watchdog
+  #         receiver: "null"
+  #       - match:
+  #         receiver: "slack"
+  #         continue: false
+  #   receivers:
+  #     - name: "null"
+  #     - name: "slack"
+  #       slack_configs:
+  #         - channel: "#kube-alerts"
+  #           send_resolved: false
+  #           color: '{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}'
+  #           title: '[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] Monitoring Event Notification'
+  #           text: >-
+  #             {{ range .Alerts }}
+  #               *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
+  #               *Description:* `{{ .Annotations.description }}`
+  #               *Details:*
+  #               {{ range .Labels.SortedPairs }} • *{{ .Name }}:* {{ .Value }}
+  #               {{ end }}
+  #             {{ end }}

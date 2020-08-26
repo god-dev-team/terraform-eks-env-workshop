@@ -1,0 +1,37 @@
+name: Linting
+
+on:
+  pull_request:
+    paths:
+      - '**'
+
+jobs:
+  terraform:
+    name: Terraform Linting
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.12.26
+
+    - name: terraform fmt
+      run: terraform fmt -check -recursive -diff
+
+    - name: 'module: terraform init'
+      run: terraform init
+
+    - name: 'sub-modules: terraform validate'
+      env:
+        AWS_DEFAULT_REGION: eu-central-1
+      run: |
+        for module in $(find modules/ -maxdepth 1 -mindepth 1 -type d); do
+          cd $module
+          terraform init
+          terraform validate
+          cd -
+        done

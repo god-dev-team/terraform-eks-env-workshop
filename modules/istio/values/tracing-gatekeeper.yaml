@@ -1,0 +1,22 @@
+nameOverride: tracing-gatekeeper
+
+discoveryURL: https://keycloak.godapp.de/auth/realms/demo
+
+upstreamURL: http://tracing-gatekeeper.istio-system.svc.cluster.local:80
+
+ClientID: tracing
+ClientSecret: 0e94208b-1ea1-4e9b-b6e4-3e0b15c9fb9d
+
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/whitelist-source-range: "0.0.0.0/0"
+  hosts:
+    - "tracing-istio.godapp.de"
+  tls:
+    - secretName: tracing-tls
+      hosts:
+        - "tracing-istio.godapp.de"

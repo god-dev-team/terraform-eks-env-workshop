@@ -1,0 +1,102 @@
+resources:
+  - apiVersion: monitoring.coreos.com/v1
+    kind: PrometheusRule
+    metadata:
+      labels:
+        role: alert-rules
+      name: prometheus-alert-rules
+    spec:
+      groups:
+        - name: InstanceCountChanged
+          rules:
+            - alert: InstanceCountChanged
+              expr: count(kube_node_labels{node=~"^.*$"}) - count(kube_node_labels{node=~"^.*$"} offset 2m) != 0
+              labels:
+                severity: Warning
+                cluster: eks-demo
+              annotations:
+                summary: "Instance Count Changed"
+                description: "The number of instances has changed. (delta: {{ $value }})"
+
+        - name: InstanceDown
+          rules:
+            - alert: InstanceDown
+              expr: up{job="kubernetes-nodes"} == 0
+              labels:
+                severity: Warning
+                cluster: eks-demo
+              annotations:
+                summary: "Instance Down"
+                description: "The instance({{ $labels.instance }}) is down."
+
+        - name: HighCpuUsage
+          rules:
+            - alert: HighCpuUsage
+              expr: 100 - (avg by (instance) (irate(node_cpu_seconds_total{job="kubernetes-service-endpoints",mode="idle"}[5m])) * 100) > 70
+              for: 5m
+              labels:
+                severity: Warning
+                cluster: eks-demo
+              annotations:
+                summary: "High CPU Usage(> 70%)"
+                description: "The CPU usage of the instance({{ $labels.instance }}) has exceeded 70 percent for more than 5 minutes."
+
+        - name: HighMemoryUsage
+          rules:
+            - alert: HighMemoryUsage
+              expr: (node_memory_MemTotal_bytes - node_memory_MemFree_bytes - node_memory_Buffers_bytes - node_memory_Cached_bytes) / node_memory_MemTotal_bytes * 100 > 90
+              for: 5m
+              labels:
+                severity: Warning
+                cluster: eks-demo
+              annotations:
+                summary: "High Memory Usage(> 90%)"
+                description: "The memory usage of the instance({{ $labels.instance }}) has exceeds 90 percent for more than 5 minutes."
+
+        - name: PodCrashingLooping
+          rules:
+            - alert: PodCrashingLooping
+              expr: round(increase(kube_pod_container_status_restarts_total[30m])) > 0
+              for: 5m
+              labels:
+                severity: Critical
+                cluster: eks-demo
+              annotations:
+                summary: "Pod Crash Looping(> 30m)"
+                description: "Namespace : {{ $labels.namespace }} Pod : {{ $labels.pod }} -- crash {{ $value }} times"
+
+        - name: KubeNodeNotReady
+          rules:
+            - alert: KubeNodeNotReady
+              expr: kube_node_status_condition{job="kubernetes-service-endpoints",condition="Ready",status="true"} == 0
+              for: 5m
+              labels:
+                severity: Critical
+                cluster: eks-demo
+              annotations:
+                summary: "Kube Node Fail :  {{ $labels.condition }}"
+                description: "Node {{ $labels.node }} is failed. Check node!!"
+
+        - name: AvgResponseTime
+          rules:
+            - alert: AvgResponseTime
+              expr: (sum(rate(nginx_ingress_controller_response_duration_seconds_sum[5m])) by (host) != 0) / (sum(rate(nginx_ingress_controller_response_duration_seconds_count[5m])) by (host) != 0) > 5
+              for: 5m
+              labels:
+                severity: Warning
+                cluster: eks-demo
+              annotations:
+                summary: "Average Response Time(> 5s)"
+                description: "{{ $labels.host }}'s Average Response Time is over 5sec."
+
+        - name: HPAMaxUsage
+          rules:
+            - alert: HPAMaxUsage
+              expr: (kube_hpa_status_current_replicas) / (kube_hpa_spec_max_replicas != 1) == 1
+              for: 5m
+              labels:
+                severity: Warning
+                cluster: eks-demo
+              annotations:
+                summary: "HPA Max Usage"
+                description: "{{ $labels.hpa }} is using HPA Max."

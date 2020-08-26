@@ -1,0 +1,76 @@
+{
+    "variable": {
+      "bitnami_external_dns": {
+        "default": "3.3.0", 
+        "description": "bitnami/external-dns"
+      }, 
+      "codecentric_keycloak": {
+        "default": "9.0.1", 
+        "description": "codecentric/keycloak"
+      }, 
+      "gabibbo97_keycloak_gatekeeper": {
+        "default": "3.3.1", 
+        "description": "gabibbo97/keycloak-gatekeeper"
+      }, 
+      "jetstack_cert_manager": {
+        "default": "v0.16.1", 
+        "description": "jetstack/cert-manager"
+      }, 
+      "oteemo_sonarqube": {
+        "default": "6.6.0", 
+        "description": "oteemo/sonarqube"
+      }, 
+      "oteemo_sonatype_nexus": {
+        "default": "2.7.0", 
+        "description": "oteemo/sonatype-nexus"
+      }, 
+      "stable_chartmuseum": {
+        "default": "2.13.2", 
+        "description": "stable/chartmuseum"
+      }, 
+      "stable_grafana": {
+        "default": "5.5.5", 
+        "description": "stable/grafana"
+      }, 
+      "stable_jenkins": {
+        "default": "2.5.2", 
+        "description": "stable/jenkins"
+      }, 
+      "stable_metrics_server": {
+        "default": "2.11.1", 
+        "description": "stable/metrics-server"
+      }, 
+      "stable_nginx_ingress": {
+        "default": "1.41.2", 
+        "description": "stable/nginx-ingress"
+      }, 
+      "stable_prometheus_adapter": {
+        "default": "2.5.0", 
+        "description": "stable/prometheus-adapter"
+      }, 
+      "stable_prometheus_operator": {
+        "default": "9.3.1", 
+        "description": "stable/prometheus-operator"
+      },
+      "argo_argo": {
+        "default": "0.9.8", 
+        "description": "argo/argo"
+      }, 
+      "argo_argo_cd": {
+        "default": "2.6.0", 
+        "description": "argo/argo-cd"
+      }, 
+      "argo_argo_events": {
+        "default": "0.17.0", 
+        "description": "argo/argo-events"
+      }, 
+      "argo_argo_rollouts": {
+        "default": "0.3.4", 
+        "description": "argo/argo-rollouts"
+      }, 
+      "stable_weave_scope": {
+        "default": "1.1.10", 
+        "description": "stable/weave-scope"
+      }
+    }
+  }

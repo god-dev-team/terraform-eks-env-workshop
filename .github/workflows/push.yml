@@ -1,0 +1,28 @@
+name: Build-Push
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Bump Version
+        uses: timzu/act-build@master
+        with:
+          args: --version
+
+      - name: Release
+        uses: timzu/act-build@master
+        with:
+          args: --release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

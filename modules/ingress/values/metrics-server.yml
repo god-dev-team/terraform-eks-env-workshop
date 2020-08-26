@@ -1,0 +1,8 @@
+nameOverride: metrics-server
+
+args:
+  - --kubelet-insecure-tls
+  - --kubelet-preferred-address-types=InternalDNS,InternalIP,ExternalDNS,ExternalIP,Hostname
+
+podAnnotations:
+  cluster-autoscaler.kubernetes.io/safe-to-evict: "false"

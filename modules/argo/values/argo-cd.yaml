@@ -1,0 +1,71 @@
+nameOverride: argocd
+
+installCRDs: true
+
+controller:
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      additionalLabels:
+        release: prometheus-operator
+  podAnnotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+
+server:
+  extraArgs:
+    - --insecure
+
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      additionalLabels:
+        release: prometheus-operator
+  podAnnotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/whitelist-source-range: "0.0.0.0/0"
+    hosts:
+      - "argocd.godapp.de"
+    tls:
+      - secretName: argocd-server-tls
+        hosts:
+          - "argocd.godapp.de"
+
+  config:
+    url: "https://argocd.godapp.de"
+
+    repositories: |
+      - name: stable
+        type: helm
+        url: https://kubernetes-charts.storage.googleapis.com
+      - name: argo
+        type: helm
+        url: https://argoproj.github.io/argo-helm
+
+    oidc.config: |
+      name: SSO
+      clientID: 'argo-cd'
+      clientSecret: 'd91fdbbc-5dbb-43ab-b388-ce4170ff79c6'
+      issuer: 'https://keycloak.godapp.de/auth/realms/demo'
+      requestedScopes:
+        - openid
+        - email
+        - profile
+        - groups
+
+  # https://argoproj.github.io/argo-cd/operator-manual/user-management/keycloak/
+
+  rbacConfig:
+    policy.default: role:readonly
+    policy.csv: |
+      g, "/admin", role:admin
+
+  additionalProjects: []

@@ -1,0 +1,157 @@
+nameOverride: jenkins
+
+master:
+  adminUser: "admin"
+  adminPassword: "password"
+
+  resources:
+    requests:
+      cpu: 1000m
+      memory: 1Gi
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+
+  podAnnotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+
+  # hostNetworking: true
+
+  javaOpts: "-Dorg.apache.commons.jelly.tags.fmt.timeZone=Europe/Berlin"
+
+  # customConfigMap: true
+  # overwriteConfig: true
+  # overwriteJobs: true
+
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/whitelist-source-range: "0.0.0.0/0"
+    hostName: "jenkins.godapp.de"
+    tls:
+      - secretName: jenkins-tls
+        hosts:
+          - "jenkins.godapp.de"
+
+  # https://github.com/helm/charts/blob/master/stable/jenkins/values.yaml
+  installPlugins:
+    - configuration-as-code:latest
+    - credentials-binding:latest
+    - git:latest
+    - kubernetes:latest
+    - workflow-aggregator:latest
+    - workflow-job:latest
+
+  # https://plugins.jenkins.io/
+  additionalPlugins:
+    - authorize-project:latest
+    - blueocean:latest
+    - github-pullrequest:latest
+    - job-dsl:latest
+    - keycloak:latest
+    - kubernetes-credentials-provider:latest
+    - pipeline-github-lib:latest
+    - prometheus:latest
+    - role-strategy:latest
+    # - generic-webhook-trigger:latest
+
+  overwritePlugins: true
+
+  prometheus:
+    enabled: true
+    serviceMonitorAdditionalLabels:
+      release: prometheus-operator
+
+  # https://plugins.jenkins.io/configuration-as-code/
+  JCasC:
+    # enabled: true
+    # defaultConfig: true
+
+    configScripts:
+      welcome-message: |-
+        jenkins:
+          systemMessage: |
+            Welcome to CI\CD server.
+            This Jenkins is configured and managed 'as code'.
+      # https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/demos/keycloak/README.md
+      keycloak: |-
+        unclassified:
+          keycloakSecurityRealm:
+            keycloakJson: |-
+              {
+                "realm": "demo",
+                "auth-server-url": "https://keycloak.godapp.de/auth/",
+                "ssl-required": "external",
+                "resource": "jenkins",
+                "credentials": {
+                  "secret": "f76f3359-4be2-45dd-aba9-6f5204e62438"
+                },
+                "confidential-port": 0
+              }
+      # https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/seed-jobs.md
+      # https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/demos/jobs/multibranch-github.yaml
+      jobs: |-
+        jobs:
+          - script: >
+              multibranchPipelineJob('sample-spring') {
+                branchSources {
+                  git {
+                      id = 'sample-spring'
+                      remote('https://github.com/timurgaleev/sample-spring.git')
+                  }
+                }
+                orphanedItemStrategy {
+                  discardOldItems {
+                    numToKeep(15)
+                  }
+                }
+              }
+    # https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/demos/keycloak/README.md
+    securityRealm: |-
+      keycloak
+    # https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/demos/role-strategy-auth/README.md
+    authorizationStrategy: |-
+      roleBased:
+        roles:
+          global:
+            - name: "admin"
+              description: "Administrators"
+              permissions:
+                - "Overall/Administer"
+              assignments:
+                - "admin"
+                - "timur_galeev@outlook.com"
+            - name: "readonly"
+              description: "Read-only users"
+              permissions:
+                - "Overall/Read"
+                - "Job/Read"
+              assignments:
+                - "authenticated"
+          items:
+            - name: "sample"
+              description: "Sample projects"
+              pattern: "sample-.*"
+              permissions:
+                - "Job/Configure"
+                - "Job/Build"
+                - "Job/Delete"
+              assignments:
+                - "user1"
+                - "user2"
+persistence:
+  enabled: true
+  size: 20Gi
+
+rbac:
+  create: true
+  readSecrets: true
+
+serviceAccount:
+  create: true
+
+serviceAccountAgent:
+  create: true

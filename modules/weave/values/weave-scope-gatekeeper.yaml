@@ -1,0 +1,22 @@
+nameOverride: weave-scope-gatekeeper
+
+discoveryURL: https://keycloak.godapp.de/auth/realms/demo
+
+upstreamURL: http://weave-scope-weave-scope.weave.svc.cluster.local:80
+
+ClientID: weave-scope
+ClientSecret: 5b93b5c3-2337-4002-962a-c7770c770024
+
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/whitelist-source-range: "0.0.0.0/0"
+  hosts:
+    - "weave-scope.godapp.de"
+  tls:
+    - secretName: weave-scope-tls
+      hosts:
+        - "weave-scope.godapp.de"

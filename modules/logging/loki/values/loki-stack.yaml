@@ -1,0 +1,23 @@
+loki:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    additionalLabels:
+      release: "prometheus"
+
+promtail:
+  enabled: true
+
+fluent-bit:
+  enabled: false
+
+grafana:
+  enabled: false
+  sidecar:
+    datasources:
+      enabled: true
+  image:
+    tag: 6.7.0
+  
+prometheus:
+  enabled: false

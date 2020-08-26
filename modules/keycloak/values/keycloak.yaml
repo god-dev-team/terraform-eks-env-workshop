@@ -1,0 +1,86 @@
+nameOverride: keycloak
+
+keycloak:
+  username: "admin"
+  password: "password"
+
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/whitelist-source-range: "0.0.0.0/0"
+    hosts:
+      - "keycloak.godapp.de"
+    tls:
+      - secretName: keycloak-tls
+        hosts:
+          - "keycloak.godapp.de"
+
+  podAnnotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+
+  extraEnv: |
+    - name: PROXY_ADDRESS_FORWARDING
+      value: "true"
+  extraVolumes: |
+    - name: realm-demo-secret
+      secret:
+        secretName: realm-demo-secret
+  extraVolumeMounts: |
+    - name: realm-demo-secret
+      mountPath: "/realm/"
+      readOnly: true
+  extraArgs: -Dkeycloak.import=/realm/demo.json
+
+  persistence:
+    deployPostgres: true
+    dbVendor: postgres
+    dbHost: keycloak-postgresql
+    dbPort: 5432
+    dbUser: keycloak
+    dbPassword: password
+
+postgresql:
+  enabled: true
+  postgresqlUsername: keycloak
+  postgresqlPassword: password
+  persistence:
+    enabled: true
+    size: 10Gi
+
+prometheus:
+  operator:
+    enabled: true
+
+    serviceMonitor:
+      selector:
+        release: prometheus-operator
+
+    prometheusRules:
+      ## Add Prometheus Rules?
+      enabled: false
+
+      ## Additional labels to add to the PrometheusRule so it is picked up by the operator.
+      ## If using the [Helm Chart](https://github.com/helm/charts/tree/master/stable/prometheus-operator) this is the name of the Helm release and 'app: prometheus-operator'
+      selector:
+        app: prometheus-operator
+        release: prometheus
+
+      ## Some example rules.
+      rules: {}
+      #  - alert: keycloak-IngressHigh5xxRate
+      #    annotations:
+      #      message: The percentage of 5xx errors for keycloak over the last 5 minutes is over 1%.
+      #    expr: (sum(rate(nginx_ingress_controller_response_duration_seconds_count{exported_namespace="mynamespace",ingress="mynamespace-keycloak",status=~"5[0-9]{2}"}[1m]))/sum(rate(nginx_ingress_controller_response_duration_seconds_count{exported_namespace="mynamespace",ingress="mynamespace-keycloak"}[1m])))*100 > 1
+      #    for: 5m
+      #    labels:
+      #      severity: warning
+      #  - alert: keycloak-IngressHigh5xxRate
+      #    annotations:
+      #      message: The percentage of 5xx errors for keycloak over the last 5 minutes is over 5%.
+      #    expr: (sum(rate(nginx_ingress_controller_response_duration_seconds_count{exported_namespace="mynamespace",ingress="mynamespace-keycloak",status=~"5[0-9]{2}"}[1m]))/sum(rate(nginx_ingress_controller_response_duration_seconds_count{exported_namespace="mynamespace",ingress="mynamespace-keycloak"}[1m])))*100 > 5
+      #    for: 5m
+      #    labels:
+      #      severity: critical

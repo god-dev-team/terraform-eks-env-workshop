@@ -1,0 +1,9 @@
+nameOverride: external-dns
+provider: aws
+policy: upsert-only
+sources:
+  - service
+  # - ingress
+
+rbac:
+  create: true

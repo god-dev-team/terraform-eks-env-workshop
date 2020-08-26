@@ -1,0 +1,10 @@
+nameOverride: cert-manager
+
+installCRDs: true
+
+rbac:
+  create: true
+
+ingressShim:
+  defaultIssuerName: letsencrypt-prod
+  defaultIssuerKind: ClusterIssuer

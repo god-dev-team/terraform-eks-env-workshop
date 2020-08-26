@@ -1,0 +1,56 @@
+fullnameOverride: sonarqube
+
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    ingress.kubernetes.io/proxy-body-size: "0"
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/whitelist-source-range: "0.0.0.0/0"
+  hosts:
+    - name: "sonarqube.godapp.de"
+      path: /
+  tls:
+    - secretName: sonarqube-tls
+      hosts:
+        - "sonarqube.godapp.de"
+
+annotations:
+  cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+
+plugins:
+  install:
+    - "https://github.com/vaulttec/sonar-auth-oidc/releases/download/v2.0.0/sonar-auth-oidc-plugin-2.0.0.jar"
+
+sonarProperties:
+  sonar.core.serverBaseURL: "https://sonarqube.godapp.de"
+  # sonar.forceAuthentication: true
+  sonar.auth.oidc.enabled: true
+  sonar.auth.oidc.issuerUri: "https://keycloak.godapp.de/auth/realms/demo"
+  sonar.auth.oidc.clientId.secured: "sonarqube"
+  sonar.auth.oidc.clientSecret.secured: "5ad5e8a7-85f2-44cf-979c-dd8faf53e84c"
+  # sonar.auth.oidc.scopes: "openid email profile"
+  # sonar.auth.oidc.groupsSync.claimName: "groups"
+  sonar.lf.enableGravatar: true
+
+# sonarSecretKey: "settings-encryption-secret"
+
+resources:
+  requests:
+    cpu: 1000m
+    memory: 2Gi
+  limits:
+    cpu: 1200m
+    memory: 3Gi
+
+persistence:
+  enabled: true
+  size: 20Gi
+
+postgresql:
+  enabled: true
+  persistence:
+    enabled: true
+    size: 8Gi

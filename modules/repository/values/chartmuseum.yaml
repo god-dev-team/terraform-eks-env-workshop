@@ -1,0 +1,33 @@
+fullnameOverride: chartmuseum
+
+replica:
+  annotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+    iam.amazonaws.com/role: "eks-worker-bucket"
+
+env:
+  open:
+    DEBUG: false
+    DISABLE_API: false
+    DISABLE_METRICS: false
+    ALLOW_OVERWRITE: true
+
+    STORAGE: "amazon"
+    STORAGE_AMAZON_BUCKET: "eks-chartmuseum-demo"
+    STORAGE_AMAZON_PREFIX: "/"
+    STORAGE_AMAZON_REGION: "eu-central-1"
+
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    ingress.kubernetes.io/proxy-body-size: "0"
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/whitelist-source-range: "0.0.0.0/0"
+  hosts:
+    - name: "chartmuseum.godapp.de"
+      path: /
+      tls: true
+      tlsSecret: chartmuseum-tls

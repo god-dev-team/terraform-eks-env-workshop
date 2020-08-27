@@ -1,5 +1,5 @@
 resource "helm_release" "argo" {
-  count = var.argo_count ? 1 : 0
+  count      = var.argo_count ? 1 : 0
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo"
   version    = var.argo_argo_version
@@ -29,7 +29,7 @@ resource "helm_release" "argo" {
 }
 
 # resource "helm_release" "argo-events" {
-#   count = var.argo_count ? 1 : 0
+#   count      = var.argo_count ? 1 : 0
 #   repository = "https://argoproj.github.io/argo-helm"
 #   chart      = "argo-events"
 #   version    = var.argo_argo_events_version
@@ -115,7 +115,7 @@ resource "kubernetes_cluster_role_binding" "edit-default-default" {
 # argo-cd & argo-rollouts
 
 resource "helm_release" "argo-rollouts" {
-  count = var.argo_count ? 1 : 0
+  count      = var.argo_count ? 1 : 0
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo-rollouts"
   version    = var.argo_argo_rollouts_version
@@ -131,7 +131,7 @@ resource "helm_release" "argo-rollouts" {
 }
 
 resource "helm_release" "argo-cd" {
-  count = var.argo_count ? 1 : 0
+  count      = var.argo_count ? 1 : 0
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo-cd"
   version    = var.argo_argo_cd_version

@@ -8,6 +8,6 @@ variable "codecentric_keycloak_version" {
 }
 
 variable "domains" {
-  type = set(string)
+  type        = set(string)
   description = "domain name for ingress"
 }

@@ -30,9 +30,9 @@ module "vpc" {
   enable_dns_support   = true
 
   public_subnet_tags = {
-    Name = "${var.environment}-public"
-    KubernetesCluster        = "${var.cluster_name}"
-    "kubernetes.io/role/elb" = ""
+    Name                                        = "${var.environment}-public"
+    KubernetesCluster                           = "${var.cluster_name}"
+    "kubernetes.io/role/elb"                    = ""
     "kubernetes.io/cluster/${var.cluster_name}" = "owned"
   }
 
@@ -41,8 +41,8 @@ module "vpc" {
   }
 
   tags = {
-    Name = "${var.environment}"
+    Name        = "${var.environment}"
     Environment = "${var.environment}"
-    Terraform = "true"
+    Terraform   = "true"
   }
 }

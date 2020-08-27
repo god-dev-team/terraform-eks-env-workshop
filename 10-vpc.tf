@@ -5,5 +5,5 @@ module "network" {
   cluster_name       = var.cluster_name
 
   ### vpc: 10.${var.network}.0.0/16
-  network            = var.network_id
+  network = var.network_id
 }

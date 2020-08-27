@@ -4,8 +4,9 @@ module "eks" {
   cluster_name = "${var.cluster_name}"
   subnets      = "${var.private_subnets}"
   vpc_id       = "${var.vpc_id}"
-  wait_for_cluster_cmd          = "until curl -k -s $ENDPOINT/healthz >/dev/null; do sleep 4; done"
-  cluster_version = var.cluster_version
+
+  wait_for_cluster_cmd = "until curl -k -s $ENDPOINT/healthz >/dev/null; do sleep 4; done"
+  cluster_version      = var.cluster_version
 
   map_users = var.map_users
 

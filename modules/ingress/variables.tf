@@ -28,6 +28,6 @@ variable "cert_manager_email" {
 }
 
 variable "domain" {
-  type    = string
+  type        = string
   description = "Domain name for Extarnal DNS service"
 }

@@ -1,6 +1,6 @@
 module "mysql_server_sg" {
-  source  = "terraform-aws-modules/security-group/aws//modules/mysql"
-  version = "~> 3.0"
+  source      = "terraform-aws-modules/security-group/aws//modules/mysql"
+  version     = "~> 3.0"
   name        = "${var.cluster_name}mysql"
   description = "Security group for MySQL"
   vpc_id      = var.vpc_id
@@ -10,7 +10,7 @@ module "mysql_server_sg" {
 }
 
 resource "random_string" "dbpassword" {
-  length = 16
+  length  = 16
   special = false
 }
 
@@ -78,26 +78,27 @@ resource "kubernetes_namespace" "sample" {
 resource "kubernetes_secret" "rdssecrets" {
 
   metadata {
-    name = "rdssecrets"
+    name      = "rdssecrets"
     namespace = "sample"
+
     annotations = {
-      "jenkins.io/credentials-description": "credentials from Kubernetes"
+      "jenkins.io/credentials-description" : "credentials from Kubernetes"
     }
+
     labels = {
-      "jenkins.io/credentials-type": "kubeconfigContent"
+      "jenkins.io/credentials-type" : "kubeconfigContent"
     }
 
   }
 
   data = {
     sql_alchemy_conn = "mysql+psycopg2://${module.mysql.this_db_instance_username}:${module.mysql.this_db_instance_password}@${module.mysql.this_db_instance_address}:5432/${module.mysql.this_db_instance_name}"
-    mysql_user = "${module.mysql.this_db_instance_username}"
-    mysql_password = "${module.mysql.this_db_instance_password}"
-    mysql_host = "${module.mysql.this_db_instance_address}"
-    mysql_port = "${module.mysql.this_db_instance_port}"
-    mysql_db = "${module.mysql.this_db_instance_name}"
-    mysql_url = "jdbc:mysql://${module.mysql.this_db_instance_address}:${module.mysql.this_db_instance_port}/${module.mysql.this_db_instance_name}"
-    
+    mysql_user       = "${module.mysql.this_db_instance_username}"
+    mysql_password   = "${module.mysql.this_db_instance_password}"
+    mysql_host       = "${module.mysql.this_db_instance_address}"
+    mysql_port       = "${module.mysql.this_db_instance_port}"
+    mysql_db         = "${module.mysql.this_db_instance_name}"
+    mysql_url        = "jdbc:mysql://${module.mysql.this_db_instance_address}:${module.mysql.this_db_instance_port}/${module.mysql.this_db_instance_name}"
   }
 
   type = "Opaque"

@@ -23,7 +23,7 @@ jobs:
       run: terraform fmt -check -recursive -diff
 
     - name: 'module: terraform init'
-      run: terraform init
+      run: terraform init -backend=false
 
     - name: 'sub-modules: terraform validate'
       env:

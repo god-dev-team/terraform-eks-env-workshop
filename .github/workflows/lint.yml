@@ -1,9 +1,9 @@
 name: Linting
 
 on:
-  pull_request:
-    paths:
-      - '**'
+  push:
+    branches:
+      - "**"
 
 jobs:
   build:

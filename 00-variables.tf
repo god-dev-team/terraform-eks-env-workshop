@@ -20,6 +20,11 @@ variable "network_id" {
   default     = "40"
 }
 
+# variable "availability_zones" {
+#   description = "A list of availability zones in which to create subnets"
+#   type = list(string)
+# }
+
 variable "spot_max_cluster_size" {
   type        = string
   description = "Number of max instances."

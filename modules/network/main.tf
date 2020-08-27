@@ -1,25 +1,27 @@
 
 data "template_file" "public" {
-  count    = "${length(var.availability_zones)}"
-  template = "10.${var.network}.${count.index}.0/24"
+  count             = length(var.availability_zones)
+  availability_zone = var.availability_zones[count.index]
+  template          = "10.${var.network}.${var.availability_zones[count.index]}.0/24"
 }
 
 data "template_file" "private" {
-  count    = "${length(var.availability_zones)}"
-  template = "10.${var.network}.20${count.index}.0/24"
+  count             = length(var.availability_zones)
+  availability_zone = var.availability_zones[count.index]
+  template          = "10.${var.network}.20${var.availability_zones[count.index]}.0/24"
 }
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "2.17.0"
+  version = "v2.48.0"
 
-  name = "${var.environment}"
+  name = "${var.environment}-${var.cluster_name}"
 
   cidr = "10.${var.network}.0.0/16"
 
-  azs             = "${var.availability_zones}"
-  private_subnets = "${data.template_file.private.*.rendered}"
-  public_subnets  = "${data.template_file.public.*.rendered}"
+  azs             = var.availability_zones
+  private_subnets = data.template_file.private.*.rendered
+  public_subnets  = data.template_file.public.*.rendered
 
   # assign_generated_ipv6_cidr_block = true
 
@@ -31,7 +33,7 @@ module "vpc" {
 
   public_subnet_tags = {
     Name                                        = "${var.environment}-public"
-    KubernetesCluster                           = "${var.cluster_name}"
+    KubernetesCluster                           = var.cluster_name
     "kubernetes.io/role/elb"                    = ""
     "kubernetes.io/cluster/${var.cluster_name}" = "owned"
   }
@@ -41,8 +43,8 @@ module "vpc" {
   }
 
   tags = {
-    Name        = "${var.environment}"
-    Environment = "${var.environment}"
+    Name        = var.environment
+    Environment = var.environment
     Terraform   = "true"
   }
 }

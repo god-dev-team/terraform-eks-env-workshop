@@ -1,9 +1,9 @@
 module "eks" {
   source       = "terraform-aws-modules/eks/aws"
   version      = "12.1.0"
-  cluster_name = "${var.cluster_name}"
-  subnets      = "${var.private_subnets}"
-  vpc_id       = "${var.vpc_id}"
+  cluster_name = var.cluster_name
+  subnets      = var.private_subnets
+  vpc_id       = var.vpc_id
 
   wait_for_cluster_cmd = "until curl -k -s $ENDPOINT/healthz >/dev/null; do sleep 4; done"
   cluster_version      = var.cluster_version

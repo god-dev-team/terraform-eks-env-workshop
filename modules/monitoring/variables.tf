@@ -1,7 +1,7 @@
 variable "domain" {
-  type    = string
+  type        = string
   description = "Domain name for Extarnal DNS service"
-  default = "set_domain"
+  default     = "set_domain"
 }
 
 variable "stable_grafana_version" {

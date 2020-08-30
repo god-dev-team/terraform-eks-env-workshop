@@ -1,7 +1,7 @@
 ### Eks-charts
 #####################################################
 module "repository" {
-  source = "./modules/repository"
+  source                        = "./modules/repository"
   chartmuseum_count             = var.chartmuseum_enabled
   nexus_count                   = var.nexus_enabled
   stable_chartmuseum_version    = var.stable_chartmuseum
@@ -17,22 +17,23 @@ module "ingress" {
   jetstack_cert_manager_version = var.jetstack_cert_manager
   stable_metrics_server_version = var.stable_metrics_server
 
-  domain              = var.domains
-  cert_manager_email  = var.cert_manager_email
-  module_depends_on   = [module.monitoring.prometheus-operator, module.kubernetes.cluster_name]
+  domain             = var.domains
+  cert_manager_email = var.cert_manager_email
+  module_depends_on  = [module.monitoring.prometheus-operator, module.kubernetes.cluster_name]
 }
 
 module "monitoring" {
-  source                              = "./modules/monitoring"
-  stable_grafana_version              = var.stable_grafana
-  stable_prometheus_adapter_version   = var.stable_prometheus_adapter
-  stable_prometheus_operator_version  = var.stable_prometheus_operator
+  source                             = "./modules/monitoring"
+  stable_grafana_version             = var.stable_grafana
+  stable_prometheus_adapter_version  = var.stable_prometheus_adapter
+  stable_prometheus_operator_version = var.stable_prometheus_operator
 }
 
 module "keycloak" {
-  source                        = "./modules/keycloak"
-  codecentric_keycloak_version  = var.codecentric_keycloak
-  module_depends_on             = [module.monitoring.prometheus-operator]
+  source                       = "./modules/keycloak"
+  codecentric_keycloak_version = var.codecentric_keycloak
+  module_depends_on            = [module.monitoring.prometheus-operator]
+  domains                      = var.domains
 }
 
 module "istio" {
@@ -62,10 +63,10 @@ module "jenkins" {
 # }
 
 module "sonarqube" {
-  source              = "./modules/sonarqube"
-  sonarqube_count     = var.sonarqube_enabled
-  module_depends_on   = [module.monitoring.prometheus-operator]
-  sonarqube_version   = var.oteemo_sonarqube
+  source            = "./modules/sonarqube"
+  sonarqube_count   = var.sonarqube_enabled
+  module_depends_on = [module.monitoring.prometheus-operator]
+  sonarqube_version = var.oteemo_sonarqube
 }
 
 module "loki" {

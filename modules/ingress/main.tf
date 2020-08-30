@@ -59,7 +59,6 @@ resource "helm_release" "cert-manager" {
 ### External-DNS
 
 resource "helm_release" "external-dns" {
-  
   repository = "https://charts.bitnami.com/bitnami"
   chart      = "external-dns"
   version    = var.bitnami_external_dns_version

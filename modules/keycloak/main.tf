@@ -35,6 +35,22 @@ resource "helm_release" "keycloak" {
     file("./modules/keycloak/values/keycloak.yaml")
   ]
 
+  dynamic "set" {
+    for_each = var.domains
+    content {
+      name  = "keycloak.ingress.hosts[${set.key}]"
+      value = "keycloak.${set.value}"
+    }
+  }
+
+  dynamic "set" {
+    for_each = var.domains
+    content {
+      name  = "keycloak.ingress.tls[${set.key}].hosts[0]"
+      value = "keycloak.${set.value}"
+    }
+  }
+
   depends_on = [
     kubernetes_secret.keycloak-realm,
     var.module_depends_on

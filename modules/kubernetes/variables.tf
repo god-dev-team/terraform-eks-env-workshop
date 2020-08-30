@@ -64,9 +64,9 @@ variable "admin_arns" {
 }
 
 variable "domain" {
-  type    = string
+  type        = string
   description = "Domain name for Extarnal DNS service"
-  default = "set_domain"
+  default     = "set_domain"
 }
 
 ### k8s admins
@@ -78,12 +78,12 @@ variable "map_users" {
     username = string
     groups   = list(string)
   }))
-  
+
   default = [
     {
-      userarn   = "arn:aws:iam::249565476171:user/tgaleev"
-      username  = "tgaleev"
-      groups    = ["system:masters"]
+      userarn  = "arn:aws:iam::249565476171:user/tgaleev"
+      username = "tgaleev"
+      groups   = ["system:masters"]
     },
   ]
 }

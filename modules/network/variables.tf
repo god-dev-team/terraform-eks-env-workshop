@@ -1,7 +1,6 @@
-variable "network" {
+variable "vpc_cidr" {
+  description = "CIDR block for VPC"
   type        = string
-  description = "Number would be used to template CIDR 10.X.0.0/16."
-  default     = "10"
 }
 
 variable "environment" {
@@ -12,10 +11,25 @@ variable "environment" {
 variable "cluster_name" {
   type        = string
   description = "Name of cluster."
-  default     = "cluster-name"
 }
 
 variable "availability_zones" {
-  description = "A list of availability zones where need to create subnets"
-  type        = list
+  description = "A list of availability zones in which to create subnets"
+  type        = list(string)
+}
+
+variable "public_subnets_cidr" {
+  description = "subnet cidr details defined for private n/w"
+  type        = list(string)
+}
+
+
+variable "private_subnets_cidr" {
+  description = "subnet cidr details defined for private n/w"
+  type        = list(string)
+}
+
+variable "vpc_enable_nat_gateway" {
+  description = "Enable NAT gateway for VPC"
+  type        = bool
 }

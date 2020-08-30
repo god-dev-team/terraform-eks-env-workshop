@@ -1,32 +1,19 @@
-
-data "template_file" "public" {
-  count             = length(var.availability_zones)
-  availability_zone = var.availability_zones[count.index]
-  template          = "10.${var.network}.${var.availability_zones[count.index]}.0/24"
-}
-
-data "template_file" "private" {
-  count             = length(var.availability_zones)
-  availability_zone = var.availability_zones[count.index]
-  template          = "10.${var.network}.20${var.availability_zones[count.index]}.0/24"
-}
-
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "v2.48.0"
 
   name = "${var.environment}-${var.cluster_name}"
 
-  cidr = "10.${var.network}.0.0/16"
+  cidr = var.vpc_cidr
 
   azs             = var.availability_zones
-  private_subnets = data.template_file.private.*.rendered
-  public_subnets  = data.template_file.public.*.rendered
+  private_subnets = var.private_subnets_cidr
+  public_subnets  = var.public_subnets_cidr
 
   # assign_generated_ipv6_cidr_block = true
 
-  enable_nat_gateway = true
-  single_nat_gateway = true
+  enable_nat_gateway = var.vpc_enable_nat_gateway
+  single_nat_gateway = var.vpc_enable_nat_gateway
 
   enable_dns_hostnames = true
   enable_dns_support   = true

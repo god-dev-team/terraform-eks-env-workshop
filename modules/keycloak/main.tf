@@ -36,13 +36,13 @@ resource "helm_release" "keycloak" {
   ]
 
   set {
-      name  = "keycloak.ingress.hosts[0]"
-      value = "keycloak.${var.domains}"
+    name  = "keycloak.ingress.hosts[0]"
+    value = "keycloak.${var.domains}"
   }
 
   set {
-      name  = "keycloak.ingress.tls[0].hosts[0]"
-      value = "keycloak.${var.domains}"
+    name  = "keycloak.ingress.tls[0].hosts[0]"
+    value = "keycloak.${var.domains}"
   }
 
   depends_on = [

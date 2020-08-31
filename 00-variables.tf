@@ -83,6 +83,7 @@ variable "cert_manager_email" {
 }
 
 variable "domains" {
+  type        = string
   description = "domains name for ingress"
   default     = "godapp.de"
 }

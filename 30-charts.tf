@@ -56,6 +56,7 @@ module "jenkins" {
   jenkins_count     = var.jenkins_enabled
   module_depends_on = [module.monitoring.prometheus-operator]
   jenkins_version   = var.stable_jenkins
+  domains                      = var.domains
 }
 
 # module "spot_fleet_request" {

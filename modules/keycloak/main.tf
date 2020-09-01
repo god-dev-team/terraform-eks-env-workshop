@@ -9,7 +9,7 @@ resource "kubernetes_namespace" "keycloak" {
 resource "kubernetes_secret" "keycloak-realm" {
   metadata {
     namespace = "keycloak"
-    name      = "realm-demo-secret"
+    name      = "keycloak-realm"
   }
 
   type = "Opaque"
@@ -38,6 +38,11 @@ resource "helm_release" "keycloak" {
   set {
     name  = "keycloak.ingress.hosts[0]"
     value = "keycloak.${var.domains}"
+  }
+
+  set {
+    name  = "keycloak.ingress.tls[0].secretName"
+    value = "keycloak-tls"
   }
 
   set {

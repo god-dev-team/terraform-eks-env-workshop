@@ -1,4 +1,4 @@
-name: Linting
+name: Tests
 
 on:
   push:
@@ -38,5 +38,8 @@ jobs:
         with:
           type: ${{ job.status }}
           job_name: ':rocket: *Tests passed ${{ github.ref }}*'
+          mention: 'here'
+          mention_if: 'failure'
           channel: '#github'
+          commit: true
           url: ${{ secrets.ROCKETCHAT_WEBHOOK }}

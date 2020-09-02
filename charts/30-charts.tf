@@ -20,7 +20,7 @@ module "ingress" {
 
   domain             = var.domains
   cert_manager_email = var.cert_manager_email
-  module_depends_on  = [module.monitoring.prometheus-operator, module.kubernetes.cluster_name]
+  module_depends_on  = [module.monitoring.prometheus-operator]
 }
 
 module "monitoring" {
@@ -57,12 +57,8 @@ module "jenkins" {
   jenkins_count     = var.jenkins_enabled
   module_depends_on = [module.monitoring.prometheus-operator]
   jenkins_version   = var.stable_jenkins
-  domains                      = var.domains
+  domains           = var.domains
 }
-
-# module "spot_fleet_request" {
-#   source = "./modules/spot_fleet"
-# }
 
 module "sonarqube" {
   source            = "./modules/sonarqube"

@@ -1,5 +1,6 @@
 ### Eks-charts
 #####################################################
+
 module "repository" {
   source                        = "./modules/repository"
   chartmuseum_count             = var.chartmuseum_enabled

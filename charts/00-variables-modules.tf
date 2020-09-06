@@ -1,9 +1,9 @@
 variable "jenkins_enabled" {
-  default = true
+  default = false
 }
 
 variable "chartmuseum_enabled" {
-  default = true
+  default = false
 }
 
 variable "archiva_enabled" {

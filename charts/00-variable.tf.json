@@ -5,7 +5,7 @@
         "description": "bitnami/external-dns"
       }, 
       "codecentric_keycloak": {
-        "default": "9.0.1", 
+        "default": "8.3.0", 
         "description": "codecentric/keycloak"
       }, 
       "gabibbo97_keycloak_gatekeeper": {

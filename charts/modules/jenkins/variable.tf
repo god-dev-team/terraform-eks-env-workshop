@@ -10,3 +10,7 @@ variable "jenkins_version" {
 variable "jenkins_count" {
   default = []
 }
+
+variable "domains" {
+  description = "domain name for ingress"
+}

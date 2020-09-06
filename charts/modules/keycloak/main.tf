@@ -9,7 +9,7 @@ resource "kubernetes_namespace" "keycloak" {
 resource "kubernetes_secret" "keycloak-realm" {
   metadata {
     namespace = "keycloak"
-    name      = "realm-demo-secret"
+    name      = "keycloak-realm"
   }
 
   type = "Opaque"
@@ -35,20 +35,19 @@ resource "helm_release" "keycloak" {
     file("./modules/keycloak/values/keycloak.yaml")
   ]
 
-  dynamic "set" {
-    for_each = var.domains
-    content {
-      name  = "keycloak.ingress.hosts[${set.key}]"
-      value = "keycloak.${set.value}"
-    }
+  set {
+    name  = "keycloak.ingress.hosts[0]"
+    value = "keycloak.${var.domains}"
   }
 
-  dynamic "set" {
-    for_each = var.domains
-    content {
-      name  = "keycloak.ingress.tls[${set.key}].hosts[0]"
-      value = "keycloak.${set.value}"
-    }
+  set {
+    name  = "keycloak.ingress.tls[0].secretName"
+    value = "keycloak-tls"
+  }
+
+  set {
+    name  = "keycloak.ingress.tls[0].hosts[0]"
+    value = "keycloak.${var.domains}"
   }
 
   depends_on = [

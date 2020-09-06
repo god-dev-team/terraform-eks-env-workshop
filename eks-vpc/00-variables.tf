@@ -1,13 +1,13 @@
 variable "environment" {
   type        = string
   description = "Environment"
-  default     = "demo"
+  default     = "GOD-EKS"
 }
 
 variable "cluster_name" {
   type        = string
   description = "Name of cluster"
-  default     = "EKS-DEMO"
+  default     = "GOD-EKS"
 }
 
 variable "aws_region" {
@@ -55,13 +55,13 @@ variable "spot_max_cluster_size" {
 variable "spot_min_cluster_size" {
   type        = string
   description = "Number of max instances."
-  default     = "3"
+  default     = "2"
 }
 
 variable "spot_desired_capacity" {
   type        = string
   description = "Number of desired instances."
-  default     = "3"
+  default     = "2"
 }
 
 variable "cluster_version" {
@@ -74,15 +74,4 @@ variable "spot_instance_type" {
   type        = string
   description = "EC2 Instance type"
   default     = "m5.large"
-}
-
-variable "cert_manager_email" {
-  type        = string
-  description = "Email to cert-manager"
-  default     = "timur.galeev@god.de"
-}
-
-variable "domains" {
-  description = "domains name for ingress"
-  default     = "godapp.de"
 }

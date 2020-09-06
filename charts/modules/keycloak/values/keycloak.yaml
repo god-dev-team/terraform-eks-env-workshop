@@ -1,8 +1,13 @@
 nameOverride: keycloak
 
 keycloak:
+  replicas: 2
+
   username: "admin"
   password: "password"
+
+  cli:
+    enabled: false
 
   ingress:
     enabled: true
@@ -11,12 +16,6 @@ keycloak:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/ssl-redirect: "true"
       nginx.ingress.kubernetes.io/whitelist-source-range: "0.0.0.0/0"
-    hosts:
-      - "keycloak.local"
-    tls:
-      - secretName: keycloak-tls
-        hosts:
-          - "keycloak.local"
 
   podAnnotations:
     cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
@@ -24,14 +23,17 @@ keycloak:
   extraEnv: |
     - name: PROXY_ADDRESS_FORWARDING
       value: "true"
+
   extraVolumes: |
-    - name: realm-demo-secret
+    - name: keycloak-realm
       secret:
-        secretName: realm-demo-secret
+        secretName: keycloak-realm
+
   extraVolumeMounts: |
-    - name: realm-demo-secret
+    - name: keycloak-realm
       mountPath: "/realm/"
       readOnly: true
+      
   extraArgs: -Dkeycloak.import=/realm/demo.json
 
   persistence:

@@ -4,10 +4,8 @@ module "eks" {
   version         = "12.1.0"
   cluster_name    = var.cluster_name
   cluster_version = var.cluster_version
-
   subnets         = var.private_subnets
   vpc_id          = var.vpc_id
-
   enable_irsa     = true
 
   map_roles    = var.map_roles
@@ -29,11 +27,10 @@ module "eks" {
   manage_aws_auth  = true
   # config_output_path     = "./kube/config"
 
-
   tags = {
-      Owner = split("/", data.aws_caller_identity.current.arn)[1]
-      AutoTag_Creator = data.aws_caller_identity.current.arn
-    }
+    Owner           = split("/", data.aws_caller_identity.current.arn)[1]
+    AutoTag_Creator = data.aws_caller_identity.current.arn
+  }
 
   node_groups_defaults = {
     ami_type  = "AL2_x86_64"
@@ -68,16 +65,16 @@ module "eks" {
 
   worker_groups = [
     {
-      name                    = "core"
-      asg_max_size            = 1
-      asg_min_size            = 1
-      asg_desired_capacity    = 1
-      instance_type           = "t3a.medium"
-      subnets                 = [module.vpc.private_subnets[0]]
+      name                 = "core"
+      asg_max_size         = 1
+      asg_min_size         = 1
+      asg_desired_capacity = 1
+      instance_type        = "t3a.medium"
+      subnets              = [var.private_subnets[0]]
 
       # Use this to set labels / taints
-      kubelet_extra_args      = "--node-labels=node-role.kubernetes.io/core=core"
-      
+      kubelet_extra_args = "--node-labels=node-role.kubernetes.io/core=core"
+
       tags = [
         {
           "key"                 = "k8s.io/cluster-autoscaler/enabled"
@@ -107,12 +104,12 @@ module "eks" {
 
       tags = [
         {
-          "key"                 = "k8s.io/cluster-autoscaler/node-template/label/k8s.dask.org/node-purpose" 
+          "key"                 = "k8s.io/cluster-autoscaler/node-template/label/k8s.dask.org/node-purpose"
           "propagate_at_launch" = "false"
           "value"               = "worker"
         },
         {
-          "key"                 = "k8s.io/cluster-autoscaler/node-template/taint/k8s.dask.org/dedicated" 
+          "key"                 = "k8s.io/cluster-autoscaler/node-template/taint/k8s.dask.org/dedicated"
           "propagate_at_launch" = "false"
           "value"               = "worker:NoSchedule"
         },
@@ -133,14 +130,14 @@ module "eks" {
 
 # This makes it possible to use helm later in the installation.
 resource "null_resource" "kubectl_config_provisioner" {
-    depends_on = [module.eks]
-    triggers = {
-        kubectl_config = module.eks.kubeconfig
-    }
-    provisioner "local-exec" {
-        command = <<EOT
-        aws eks --region ${var.aws_region} wait cluster-active --name ${var.cluster_name}
-        aws eks --region ${var.aws_region} update-kubeconfig --name ${var.cluster_name}
-        EOT
-    }
+  depends_on = [module.eks]
+  triggers = {
+    kubectl_config = module.eks.kubeconfig
+  }
+  provisioner "local-exec" {
+    command = <<EOT
+    aws eks --region ${var.aws_region} wait cluster-active --name ${var.cluster_name}
+    aws eks --region ${var.aws_region} update-kubeconfig --name ${var.cluster_name}
+    EOT
+  }
 }

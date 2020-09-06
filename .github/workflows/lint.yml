@@ -41,5 +41,5 @@ jobs:
           mention: 'here'
           mention_if: 'failure'
           channel: '#github'
-          commit: true
+          # commit: true
           url: ${{ secrets.ROCKETCHAT_WEBHOOK }}

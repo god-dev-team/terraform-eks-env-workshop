@@ -40,7 +40,7 @@ module "eks" {
       asg_max_size             = var.max_cluster_size
       asg_min_size             = var.min_cluster_size
       asg_desired_capacity     = var.desired_capacity
-      root_volume_size         = "50" 
+      root_volume_size         = "50"
       spot_allocation_strategy = "lowest-price"
       # spot_price               = var.instance_price     
 

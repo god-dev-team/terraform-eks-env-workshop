@@ -58,7 +58,7 @@ variable "instance_pools" {
 }
 
 variable "instance_price" {
-  type    = string
+  type = string
 }
 
 variable "map_users" {

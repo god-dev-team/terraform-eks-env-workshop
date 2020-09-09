@@ -56,9 +56,8 @@ data "aws_iam_policy_document" "cluster_autoscaler" {
   }
 }
 
-
 resource "helm_release" "cluster-autoscaler" {
- 
+
   repository = "https://kubernetes-charts.storage.googleapis.com"
   chart      = "cluster-autoscaler"
   version    = "7.3.4"

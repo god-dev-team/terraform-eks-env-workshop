@@ -37,7 +37,7 @@ For destroy some module just remove it from modules.tf and run
 
 `terraform plan -out plan && terraform apply plan`
 
-## Kubernetes system modules
+## Kubernetes modules
 
 - external-dns
 - metrics-server

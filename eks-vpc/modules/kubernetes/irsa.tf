@@ -55,3 +55,63 @@ data "aws_iam_policy_document" "cluster_autoscaler" {
     }
   }
 }
+
+
+resource "helm_release" "cluster-autoscaler" {
+ 
+  repository = "https://kubernetes-charts.storage.googleapis.com"
+  chart      = "cluster-autoscaler"
+  version    = "7.3.4"
+
+  namespace = "kube-system"
+  name      = "cluster-autoscaler"
+
+  values = [
+    file("./modules/kubernetes/values/cluster-autoscaler.yaml")
+  ]
+
+  set {
+    name  = "awsRegion"
+    value = var.aws_region
+  }
+
+  set {
+    name  = "autoDiscovery.clusterName"
+    value = var.cluster_name
+  }
+
+  set {
+    name  = "rbac.serviceAccountAnnotations.eks\\.amazonaws\\.com/role-arn"
+    value = module.iam_assumable_role_admin.this_iam_role_arn
+  }
+
+  wait = false
+
+  depends_on = [
+  ]
+}
+
+resource "helm_release" "k8s-spot-termination-handler" {
+  repository = "https://kubernetes-charts.storage.googleapis.com"
+  chart      = "k8s-spot-termination-handler"
+  version    = "1.4.9"
+
+  namespace = "kube-system"
+  name      = "k8s-spot-termination-handler"
+
+  values = [
+    file("./modules/kubernetes/values/k8s-spot-termination-handler.yaml")
+  ]
+
+  set {
+    name  = "clusterName"
+    value = var.cluster_name
+  }
+
+  set {
+    name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+    value = module.iam_assumable_role_admin.this_iam_role_arn
+  }
+
+  wait = false
+}

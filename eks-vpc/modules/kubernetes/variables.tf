@@ -48,28 +48,18 @@ variable "cluster_version" {
 }
 
 variable "instance_type" {
-  type        = string
-  description = "EC2 Instance type"
+  type        = list(string)
+  description = "Worker EC2 Instance type"
 }
 
-variable "spot_price" {
+variable "instance_pools" {
+  type        = string
+  description = "Number EC2 Instance type"
+}
+
+variable "instance_price" {
   type    = string
-  default = "0.5"
 }
-
-variable "admin_arns" {
-  type        = list(map(string))
-  description = "ARNs of users which would have admin permissions."
-  default     = []
-}
-
-variable "domain" {
-  type        = string
-  description = "Domain name for Extarnal DNS service"
-  default     = "set_domain"
-}
-
-### k8s admins
 
 variable "map_users" {
   description = "Additional IAM users to add to the aws-auth configmap."
@@ -78,14 +68,6 @@ variable "map_users" {
     username = string
     groups   = list(string)
   }))
-
-  default = [
-    {
-      userarn  = "arn:aws:iam::249565476171:user/tgaleev"
-      username = "tgaleev"
-      groups   = ["system:masters"]
-    },
-  ]
 }
 
 variable "map_roles" {
@@ -95,13 +77,9 @@ variable "map_roles" {
     username = string
     groups   = list(string)
   }))
-
-  default = [
-  ]
 }
 
 variable "map_accounts" {
   description = "Additional AWS account numbers to add to the aws-auth configmap."
   type        = list(string)
-  default     = []
 }

@@ -32,75 +32,20 @@ module "eks" {
     AutoTag_Creator = data.aws_caller_identity.current.arn
   }
 
-  node_groups_defaults = {
-    ami_type  = "AL2_x86_64"
-    disk_size = 50
-  }
-
-  # worker_groups = [
-  #   {
-  #     spot_price           = var.spot_price
-  #     instance_type        = "var.instance_type"
-  #     asg_max_size         = var.max_cluster_size
-  #     asg_desired_capacity = var.desired_capacity
-  #     asg_min_size         = var.min_cluster_size
-  #     suspended_processes  = ["AZRebalance"]
-
-  #     kubelet_extra_args  = "--node-labels=node.kubernetes.io/lifecycle=spot"
-
-  #     tags = [
-  #         {
-  #             "key"                 = "k8s.io/cluster-autoscaler/enabled"
-  #             "propagate_at_launch" = "false"
-  #             "value"               = "true"
-  #         },
-  #         {
-  #             "key"                 = "k8s.io/cluster-autoscaler/${var.cluster_name}"
-  #             "propagate_at_launch" = "false"
-  #             "value"               = "true"
-  #         }
-  #     ]
-  #   },
-  # ]
-
   worker_groups = [
     {
-      name                 = "core"
-      asg_max_size         = 1
-      asg_min_size         = 1
-      asg_desired_capacity = 1
-      instance_type        = "t3a.medium"
-      subnets              = [var.private_subnets[0]]
+      name                     = "worker-spot"
+      override_instance_types  = var.instance_type
+      spot_instance_pools      = var.instance_pools
+      asg_max_size             = var.max_cluster_size
+      asg_min_size             = var.min_cluster_size
+      asg_desired_capacity     = var.desired_capacity
+      root_volume_size         = "50" 
+      spot_allocation_strategy = "lowest-price"
+      # spot_price               = var.instance_price     
 
       # Use this to set labels / taints
-      kubelet_extra_args = "--node-labels=node-role.kubernetes.io/core=core"
-
-      tags = [
-        {
-          "key"                 = "k8s.io/cluster-autoscaler/enabled"
-          "propagate_at_launch" = "false"
-          "value"               = "true"
-        },
-        {
-          "key"                 = "k8s.io/cluster-autoscaler/${var.cluster_name}"
-          "propagate_at_launch" = "false"
-          "value"               = "true"
-        }
-      ]
-    }
-  ]
-
-  worker_groups_launch_template = [
-    {
-      name                    = "worker-spot"
-      override_instance_types = ["r5.2xlarge", "r4.2xlarge"]
-      spot_instance_pools     = 2
-      asg_max_size            = 5
-      asg_min_size            = 0
-      asg_desired_capacity    = 0
-
-      # Use this to set labels / taints
-      kubelet_extra_args = "--node-labels node-role.kubernetes.io/worker=worker,k8s.dask.org/node-purpose=worker --register-with-taints k8s.dask.org/dedicated=worker:NoSchedule"
+      kubelet_extra_args = "--node-labels=node.kubernetes.io/lifecycle=spot,k8s.dask.org/node-purpose=worker --register-with-taints k8s.dask.org/dedicated=worker:NoSchedule"
 
       tags = [
         {

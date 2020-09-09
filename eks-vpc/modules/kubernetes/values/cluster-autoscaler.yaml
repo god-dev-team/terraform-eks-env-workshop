@@ -1,0 +1,60 @@
+nameOverride: cluster-autoscaler
+
+cloudProvider: aws
+
+awsRegion: eu-central-1
+
+autoDiscovery:
+  enabled: true
+  clusterName: eks
+
+image:
+  repository: k8s.gcr.io/autoscaling/cluster-autoscaler
+  tag: v1.18.2
+
+# image:
+#   repository: us.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler
+#   tag: v1.18.1
+
+extraArgs:
+  logtostderr: true
+  stderrthreshold: info
+  v: 4
+  scale-down-enabled: true
+  scale-down-utilization-threshold: 0.6
+  skip-nodes-with-local-storage: false
+  skip-nodes-with-system-pods: false
+
+tolerations:
+  - key: node-role
+    operator: Equal
+    value: ops
+    effect: NoSchedule
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: node-role
+              operator: In
+              values:
+                - ops
+
+# podAnnotations:
+#   cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+#   iam.amazonaws.com/role: "eks-demo-asg"
+
+# sslCertPath: /etc/ssl/certs/ca-bundle.crt
+
+rbac:
+  create: true
+  # serviceAccount:
+  #   annotations:
+  #     eks.amazonaws.com/role-arn: IAM_ROLE_ARN
+
+# serviceMonitor:
+#   enabled: true
+#   namespace: monitor
+#   selector:
+#     release: prometheus-operator

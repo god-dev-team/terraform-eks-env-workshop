@@ -1,0 +1,20 @@
+nameOverride: k8s-spot-termination-handler
+
+clusterName: eks-demo
+
+detachAsg: false
+
+tolerations:
+  - key: node-role
+    operator: Equal
+    value: ops
+    effect: NoSchedule
+
+# podAnnotations:
+#   cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+#   iam.amazonaws.com/role: "eks-demo-asg"
+
+serviceAccount:
+  create: true
+  annotations:
+    eks.amazonaws.com/role-arn: IAM_ROLE_ARN

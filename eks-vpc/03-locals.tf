@@ -6,7 +6,7 @@ locals {
 
 locals {
 
-  map_users = [ 
+  map_users = [
     {
       userarn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/tgaleev"
       username = "tgaleev"

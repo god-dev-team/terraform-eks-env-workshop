@@ -65,9 +65,9 @@ resource "helm_release" "cluster-autoscaler" {
   namespace = "kube-system"
   name      = "cluster-autoscaler"
 
-  values = [
-    file("./modules/kubernetes/values/cluster-autoscaler.yaml")
-  ]
+  # values = [
+  #   file("./modules/kubernetes/values/cluster-autoscaler.yaml")
+  # ]
 
   set {
     name  = "awsRegion"

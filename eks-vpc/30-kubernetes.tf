@@ -18,7 +18,7 @@ module "kubernetes" {
   vpc_id          = module.network.vpc_id
   private_subnets = module.network.private_subnets
 
-  map_users    = var.map_users
-  map_roles    = var.map_roles
-  map_accounts = var.map_accounts
+  map_users    = local.map_users
+  map_roles    = local.map_roles
+  map_accounts = local.map_accounts
 }

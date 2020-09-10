@@ -32,7 +32,9 @@ module "eks" {
     AutoTag_Creator = data.aws_caller_identity.current.arn
   }
 
-  worker_groups = [
+  worker_groups = []
+
+  worker_groups_launch_template = [
     {
       name                     = "worker-spot"
       override_instance_types  = var.instance_type
@@ -45,19 +47,9 @@ module "eks" {
       # spot_price               = var.instance_price     
 
       # Use this to set labels / taints
-      kubelet_extra_args = "--node-labels=node.kubernetes.io/lifecycle=spot,k8s.dask.org/node-purpose=worker --register-with-taints k8s.dask.org/dedicated=worker:NoSchedule"
+      kubelet_extra_args = "--node-labels=node-role=ops,node.kubernetes.io/role=ops --register-with-taints node-role=ops:NoSchedule"
 
       tags = [
-        {
-          "key"                 = "k8s.io/cluster-autoscaler/node-template/label/k8s.dask.org/node-purpose"
-          "propagate_at_launch" = "false"
-          "value"               = "worker"
-        },
-        {
-          "key"                 = "k8s.io/cluster-autoscaler/node-template/taint/k8s.dask.org/dedicated"
-          "propagate_at_launch" = "false"
-          "value"               = "worker:NoSchedule"
-        },
         {
           "key"                 = "k8s.io/cluster-autoscaler/enabled"
           "propagate_at_launch" = "false"

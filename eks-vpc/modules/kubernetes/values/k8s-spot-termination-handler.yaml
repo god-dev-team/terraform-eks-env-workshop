@@ -1,6 +1,6 @@
 nameOverride: k8s-spot-termination-handler
 
-clusterName: eks-demo
+clusterName: eks
 
 detachAsg: false
 

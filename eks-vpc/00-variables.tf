@@ -1,11 +1,9 @@
 variable "environment" {
-  type        = string
   description = "Environment"
   default     = "GOD-EKS"
 }
 
 variable "cluster_name" {
-  type        = string
   description = "Name of cluster"
   default     = "GOD-EKS"
 }

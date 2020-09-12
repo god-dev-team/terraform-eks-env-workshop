@@ -28,13 +28,13 @@ module "eks" {
   # config_output_path     = "./kube/config"
 
   tags = {
-    Owner = split("/", data.aws_caller_identity.current.arn)[1]
+    Owner           = split("/", data.aws_caller_identity.current.arn)[1]
     AutoTag_Creator = data.aws_caller_identity.current.arn
-    Project = "${var.cluster_name}project"
+    Project         = "${var.cluster_name}project"
   }
 
   worker_groups = [
-    
+
   ]
 
   worker_groups_launch_template = [

@@ -4,15 +4,15 @@ clusterName: eks
 
 detachAsg: false
 
-tolerations:
-  - key: node-role
-    operator: Equal
-    value: ops
-    effect: NoSchedule
+# tolerations:
+#   - key: node-role
+#     operator: Equal
+#     value: scaling
+#     effect: NoSchedule
 
 # podAnnotations:
 #   cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
-#   iam.amazonaws.com/role: "eks-demo-asg"
+#   iam.amazonaws.com/role: "eks-asg"
 
 serviceAccount:
   create: true

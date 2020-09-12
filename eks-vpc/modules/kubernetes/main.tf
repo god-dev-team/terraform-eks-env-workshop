@@ -28,11 +28,14 @@ module "eks" {
   # config_output_path     = "./kube/config"
 
   tags = {
-    Owner           = split("/", data.aws_caller_identity.current.arn)[1]
+    Owner = split("/", data.aws_caller_identity.current.arn)[1]
     AutoTag_Creator = data.aws_caller_identity.current.arn
+    Project = "${var.cluster_name}project"
   }
 
-  worker_groups = []
+  worker_groups = [
+    
+  ]
 
   worker_groups_launch_template = [
     {
@@ -42,12 +45,13 @@ module "eks" {
       asg_max_size             = var.max_cluster_size
       asg_min_size             = var.min_cluster_size
       asg_desired_capacity     = var.desired_capacity
+      suspended_processes      = ["AZRebalance"]
       root_volume_size         = "50"
       spot_allocation_strategy = "lowest-price"
       # spot_price               = var.instance_price     
 
       # Use this to set labels / taints
-      kubelet_extra_args = "--node-labels=node-role=ops,node.kubernetes.io/role=ops --register-with-taints node-role=ops:NoSchedule"
+      kubelet_extra_args = "--node-labels=node.kubernetes.io/lifecycle=spot"
 
       tags = [
         {

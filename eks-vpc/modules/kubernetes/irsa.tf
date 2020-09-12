@@ -6,6 +6,12 @@ module "iam_assumable_role_admin" {
   provider_url                  = replace(module.eks.cluster_oidc_issuer_url, "https://", "")
   role_policy_arns              = [aws_iam_policy.cluster_autoscaler.arn]
   oidc_fully_qualified_subjects = ["system:serviceaccount:kube-system:cluster-autoscaler-aws-cluster-autoscaler"]
+
+  tags = {
+    Owner = split("/", data.aws_caller_identity.current.arn)[1]
+    AutoTag_Creator = data.aws_caller_identity.current.arn
+    Project = "${var.cluster_name}project"
+  }
 }
 
 resource "aws_iam_policy" "cluster_autoscaler" {
@@ -65,13 +71,28 @@ resource "helm_release" "cluster-autoscaler" {
   namespace = "kube-system"
   name      = "cluster-autoscaler"
 
-  # values = [
-  #   file("./modules/kubernetes/values/cluster-autoscaler.yaml")
-  # ]
+  values = [
+    file("./modules/kubernetes/values/cluster-autoscaler.yaml")
+  ]
 
   set {
     name  = "awsRegion"
     value = var.aws_region
+  }
+
+  set {
+    name  = "cloud-provider"
+    value = "aws"
+  }
+
+  set {
+    name  = "rbac.create"
+    value = true
+  }
+
+  set {
+    name  = "autoDiscovery.enabled"
+    value = true
   }
 
   set {

@@ -3,6 +3,7 @@
 # https://github.com/jenkinsci/kubernetes-credentials-provider-plugin/tree/master/docs/examples
 
 resource "kubernetes_secret" "jenkins-secret-username" {
+  count = var.jenkins_count ? 1 : 0
   metadata {
     namespace = "jenkins"
     name      = "jenkins-secret-username"
@@ -29,6 +30,7 @@ resource "kubernetes_secret" "jenkins-secret-username" {
 }
 
 resource "kubernetes_secret" "jenkins-secret-text" {
+  count = var.jenkins_count ? 1 : 0
   metadata {
     namespace = "jenkins"
     name      = "jenkins-secret-text"
@@ -54,6 +56,7 @@ resource "kubernetes_secret" "jenkins-secret-text" {
 }
 
 resource "kubernetes_secret" "jenkins-secret-file" {
+  count = var.jenkins_count ? 1 : 0
   metadata {
     namespace = "jenkins"
     name      = "jenkins-secret-file"
@@ -80,6 +83,7 @@ resource "kubernetes_secret" "jenkins-secret-file" {
 }
 
 resource "kubernetes_secret" "jenkins-secret-private-key" {
+  count = var.jenkins_count ? 1 : 0
   metadata {
     namespace = "jenkins"
     name      = "jenkins-secret-private-key"

@@ -7,7 +7,7 @@
 
 - kubectl
 - awscli
-- aws-iam-authenticator 
+- aws-iam-authenticator
 - terraform
 - helm
 
@@ -33,11 +33,11 @@ This repository provides the minimal set of resources, which may be required for
 
 ## Work with cluster
 
-For destroy some module just remove it from modules.tf and run 
+For destroy some module just remove it from modules.tf and run.
 
 `terraform plan -out plan && terraform apply plan`
 
-## Kubernetes system modules
+## Kubernetes modules
 
 - external-dns
 - metrics-server
@@ -51,4 +51,4 @@ For destroy some module just remove it from modules.tf and run
 - loki
 - keycloack
 - monitoring (grafana)
-- jenkins 
+- jenkins

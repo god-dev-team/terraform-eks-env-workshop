@@ -1,11 +1,9 @@
 variable "environment" {
-  type        = string
   description = "Environment"
   default     = "GOD-EKS"
 }
 
 variable "cluster_name" {
-  type        = string
   description = "Name of cluster"
   default     = "GOD-EKS"
 }
@@ -14,6 +12,8 @@ variable "aws_region" {
   description = "Name the aws region (eu-central-1, us-central-1 and etc.)"
   default     = "eu-central-1"
 }
+
+################ VPC
 
 variable "vpc_cidr" {
   description = "CIDR block for VPC"
@@ -46,32 +46,80 @@ variable "vpc_enable_nat_gateway" {
   default     = true
 }
 
+################ EKS
+
 variable "spot_max_cluster_size" {
   type        = string
   description = "Number of max instances."
-  default     = "4"
+  default     = "5"
 }
 
 variable "spot_min_cluster_size" {
   type        = string
-  description = "Number of max instances."
-  default     = "2"
+  description = "Number of min instances."
+  default     = "1"
 }
 
 variable "spot_desired_capacity" {
   type        = string
   description = "Number of desired instances."
-  default     = "2"
+  default     = "1"
 }
 
 variable "cluster_version" {
   type        = string
-  description = "Number of desired instances."
+  description = "Cluster version."
   default     = "1.17"
 }
 
 variable "spot_instance_type" {
-  type        = string
-  description = "EC2 Instance type"
-  default     = "m5.large"
+  type        = list(string)
+  description = "Worker EC2 Instance type"
+  default     = ["t3a.medium", "r5.2xlarge", "r4.2xlarge"]
 }
+
+variable "spot_instance_pools" {
+  type        = string
+  description = "Number EC2 Instance type"
+  default     = "3"
+}
+
+variable "spot_price" {
+  type    = string
+  default = "0.20"
+}
+
+# variable "map_users" {
+#   description = "Additional IAM users to add to the aws-auth configmap."
+#   type = list(object({
+#     userarn  = string
+#     username = string
+#     groups   = list(string)
+#   }))
+
+#   default = [
+#     {
+#       userarn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/tgaleev"
+#       username = "tgaleev"
+#       groups   = ["system:masters"]
+#     },
+#   ]
+# }
+
+# variable "map_roles" {
+#   description = "Additional IAM roles to add to the aws-auth configmap."
+#   type = list(object({
+#     rolearn  = string
+#     username = string
+#     groups   = list(string)
+#   }))
+
+#   default = [
+#   ]
+# }
+
+# variable "map_accounts" {
+#   description = "Additional AWS account numbers to add to the aws-auth configmap."
+#   type        = list(string)
+#   default     = []
+# }

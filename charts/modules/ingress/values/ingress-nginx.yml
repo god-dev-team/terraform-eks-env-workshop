@@ -9,6 +9,8 @@ controller:
     use-forwarded-headers: "true"
   service:
     annotations:
+      external-dns.alpha.kubernetes.io/hostname: "*.godapp.de"
+      external-dns.alpha.kubernetes.io/ttl: "300"
       # service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
       # service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "http"
       service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "3600"
@@ -16,8 +18,6 @@ controller:
       # service.beta.kubernetes.io/aws-load-balancer-security-groups: ""
       service.beta.kubernetes.io/aws-load-balancer-ssl-cert: ""
       service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
-      external-dns.alpha.kubernetes.io/hostname: "*.godapp.de"
-      external-dns.alpha.kubernetes.io/ttl: "300"
 
     # externalTrafficPolicy: "Cluster"
 

@@ -56,7 +56,7 @@ variable "spot_max_cluster_size" {
 
 variable "spot_min_cluster_size" {
   type        = string
-  description = "Number of max instances."
+  description = "Number of min instances."
   default     = "1"
 }
 
@@ -68,7 +68,7 @@ variable "spot_desired_capacity" {
 
 variable "cluster_version" {
   type        = string
-  description = "Number of desired instances."
+  description = "Cluster version."
   default     = "1.17"
 }
 

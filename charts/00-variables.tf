@@ -6,11 +6,11 @@ variable "aws_region" {
 variable "cert_manager_email" {
   type        = string
   description = "Email to cert-manager"
-  default     = "timur.galeev@god.de"
+  default     = ""
 }
 
 variable "domains" {
   type        = string
   description = "domain name for ingress"
-  default     = "godapp.de"
+  default     = ""
 }

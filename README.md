@@ -25,9 +25,11 @@ brew install direnv
 
 ### Setup .envrc
 
-Setup your `KUBECONFIG`
+Setup your `KUBECONFIG` and aws credentials
 
 ```bash
+export AWS_CONFIG_FILE=
+export AWS_SHARED_CREDENTIALS_FILE=
 export KUBECONFIG=$(pwd)/eks-vpc/kubeconfig_GOD-EKS
 ```
 

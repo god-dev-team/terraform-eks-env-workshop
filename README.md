@@ -3,16 +3,71 @@
 [![GitHub Actions status](https://github.com/GOD-mbh/terraform-eks-env-workshop/workflows/Build-Push/badge.svg)](https://github.com/GOD-mbh/terraform-eks-env-workshop/actions)
 [![GitHub Releases](https://img.shields.io/github/release/GOD-mbh/terraform-eks-env-workshop.svg)](https://github.com/GOD-mbh/terraform-eks-env-workshop/releases)
 
+Terraform and helm charts to ensure deployment of the full EKS cluster
+
+<p align="center">
+  <img src="images/image1.png">
+</p>
+
 ## Prerequsite
 
-- kubectl
-- awscli
-- aws-iam-authenticator
-- terraform
-- helm
+```bash
+brew update
+brew install kubectl
+brew install python3
+easy_install pip
+pip install awscli — upgrade — user
+export PATH=~/.local/bin:$PATH
+brew install terraform
+brew install terragrunt
+brew install direnv
+```
 
-## Usage
-- Edit terraform.tfvars
+### Setup .envrc
+
+Setup your `KUBECONFIG`
+
+```bash
+export KUBECONFIG=$(pwd)/eks-vpc/kubeconfig_GOD-EKS
+```
+
+### Authorize users to access the cluster
+
+Initially, only the system that deployed the cluster will be able to access the cluster. To authorize other users for accessing the cluster, config needs to be modified by using the steps given below:
+
+* Modify file `eks-vpc/locals.tf`as:
+
+
+```yaml
+
+locals {
+
+  map_users = [
+    {
+      userarn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/tgaleev"
+      username = "tgaleev"
+      groups   = ["system:masters"]
+    }
+  ]
+
+  map_roles = []
+
+  map_accounts = []
+}
+```
+
+## How to use this example
+
+Install EKS
+
+- `cd eks-vpc`
+- Run `terraform init`
+- Run `terraform plan` and review
+- Run `terraform apply`
+
+Install helm charts
+
+- `cd charts`
 - Run `terraform init`
 - Run `terraform plan` and review
 - Run `terraform apply`
@@ -37,7 +92,7 @@ For destroy some module just remove it from modules.tf and run.
 
 `terraform plan -out plan && terraform apply plan`
 
-## Kubernetes modules
+## What resources via helm are created
 
 - external-dns
 - metrics-server
@@ -52,3 +107,12 @@ For destroy some module just remove it from modules.tf and run.
 - keycloack
 - monitoring (grafana)
 - jenkins
+
+### Cleaning up
+
+You can destroy this cluster entirely by running:
+
+```bash
+terraform plan -destroy
+terraform destroy  --force
+```

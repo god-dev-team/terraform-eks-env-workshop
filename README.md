@@ -3,7 +3,7 @@
 [![GitHub Actions status](https://github.com/GOD-mbh/terraform-eks-env-workshop/workflows/Build-Push/badge.svg)](https://github.com/GOD-mbh/terraform-eks-env-workshop/actions)
 [![GitHub Releases](https://img.shields.io/github/release/GOD-mbh/terraform-eks-env-workshop.svg)](https://github.com/GOD-mbh/terraform-eks-env-workshop/releases)
 
-Terraform and helm charts to ensure deployment of the full EKS cluster
+Terraform and helm charts to provide deployment of the full EKS cluster
 
 <p align="center">
   <img src="images/image1.png">

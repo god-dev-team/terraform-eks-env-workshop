@@ -25,7 +25,7 @@ module "eks" {
 
   write_kubeconfig = true
   manage_aws_auth  = true
-  # config_output_path     = "./kube/config"
+  config_output_path     = "./kube/config"
 
   tags = {
     Owner           = split("/", data.aws_caller_identity.current.arn)[1]

@@ -5,6 +5,10 @@
 
 Terraform and helm charts to ensure deployment of the full EKS cluster
 
+<p align="center">
+  <img src="images/image1.png">
+</p>
+
 ## Prerequsite
 
 ```bash

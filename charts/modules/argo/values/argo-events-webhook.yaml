@@ -1,0 +1,62 @@
+resources:
+  - apiVersion: argoproj.io/v1alpha1
+    kind: EventSource
+    metadata:
+      name: webhook
+    spec:
+      service:
+        ports:
+          - port: 12000
+            targetPort: 12000
+      webhook:
+        example:
+          port: "12000"
+          endpoint: /example
+          method: POST
+
+  - apiVersion: argoproj.io/v1alpha1
+    kind: Sensor
+    metadata:
+      name: webhook
+    spec:
+      template:
+        serviceAccountName: argo-events-sa
+      dependencies:
+        - name: test-dep
+          eventSourceName: webhook
+          eventName: example
+      triggers:
+        - template:
+            name: webhook-workflow-trigger
+            k8s:
+              group: argoproj.io
+              version: v1alpha1
+              resource: workflows
+              operation: create
+              source:
+                resource:
+                  apiVersion: argoproj.io/v1alpha1
+                  kind: Workflow
+                  metadata:
+                    generateName: webhook-
+                  spec:
+                    entrypoint: whalesay
+                    arguments:
+                      parameters:
+                        - name: message
+                          # the value will get overridden by event payload from test-dep
+                          value: hello world
+                    templates:
+                      - name: whalesay
+                        serviceAccountName: argo-events-sa
+                        inputs:
+                          parameters:
+                            - name: message
+                        container:
+                          image: docker/whalesay:latest
+                          command: [cowsay]
+                          args: ["{{inputs.parameters.message}}"]
+              parameters:
+                - src:
+                    dependencyName: test-dep
+                  dest: spec.arguments.parameters.0.value

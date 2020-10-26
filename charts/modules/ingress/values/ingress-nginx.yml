@@ -10,7 +10,7 @@ controller:
   service:
     annotations:
       external-dns.alpha.kubernetes.io/hostname: "*.godapp.de"
-      external-dns.alpha.kubernetes.io/ttl: "300"
+      # external-dns.alpha.kubernetes.io/ttl: "300"
       # service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
       # service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "http"
       service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "3600"

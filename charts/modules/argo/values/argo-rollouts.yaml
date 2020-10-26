@@ -3,5 +3,4 @@ nameOverride: argo-rollouts
 installCRDs: true
 
 controller:
-  image:
-    tag: v0.8.3
+

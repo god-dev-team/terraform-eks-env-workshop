@@ -13,7 +13,7 @@ Terraform and helm charts to provide deployment of the full EKS cluster
 
 ```bash
 brew update
-brew install kubectl
+brew install kubernetes-cli
 brew install python3
 easy_install pip
 pip install awscli — upgrade — user

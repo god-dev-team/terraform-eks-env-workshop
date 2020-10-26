@@ -1,11 +1,11 @@
 {
     "variable": {
       "bitnami_external_dns": {
-        "default": "3.3.0", 
+        "default": "3.4.1", 
         "description": "bitnami/external-dns"
       }, 
       "codecentric_keycloak": {
-        "default": "8.3.0", 
+        "default": "8.3.0",
         "description": "codecentric/keycloak"
       }, 
       "gabibbo97_keycloak_gatekeeper": {
@@ -13,19 +13,19 @@
         "description": "gabibbo97/keycloak-gatekeeper"
       }, 
       "jetstack_cert_manager": {
-        "default": "v0.16.1", 
+        "default": "v1.0.2", 
         "description": "jetstack/cert-manager"
       }, 
       "oteemo_sonarqube": {
-        "default": "6.6.0", 
+        "default": "6.8.0", 
         "description": "oteemo/sonarqube"
       }, 
       "oteemo_sonatype_nexus": {
-        "default": "2.7.0", 
+        "default": "2.8.0", 
         "description": "oteemo/sonatype-nexus"
       }, 
       "stable_chartmuseum": {
-        "default": "2.13.2", 
+        "default": "2.13.3", 
         "description": "stable/chartmuseum"
       }, 
       "stable_grafana": {
@@ -37,7 +37,7 @@
         "description": "stable/jenkins"
       }, 
       "stable_metrics_server": {
-        "default": "2.11.1", 
+        "default": "2.11.2", 
         "description": "stable/metrics-server"
       }, 
       "stable_nginx_ingress": {
@@ -53,19 +53,19 @@
         "description": "stable/prometheus-operator"
       },
       "argo_argo": {
-        "default": "0.9.8", 
+        "default": "0.12.1", 
         "description": "argo/argo"
       }, 
       "argo_argo_cd": {
-        "default": "2.6.0", 
+        "default": "2.7.4", 
         "description": "argo/argo-cd"
       }, 
       "argo_argo_events": {
-        "default": "0.17.0", 
+        "default": "1.0.0", 
         "description": "argo/argo-events"
       }, 
       "argo_argo_rollouts": {
-        "default": "0.3.4", 
+        "default": "0.3.6", 
         "description": "argo/argo-rollouts"
       }, 
       "stable_weave_scope": {

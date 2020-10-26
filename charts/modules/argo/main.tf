@@ -47,7 +47,7 @@ resource "helm_release" "argo-events" {
 }
 
 resource "helm_release" "argo-events-webhook" {
-  count      = var.argo_count ? 1 : 0
+  count = var.argo_count ? 1 : 0
 
   repository = "https://kubernetes-charts-incubator.storage.googleapis.com"
   chart      = "raw"

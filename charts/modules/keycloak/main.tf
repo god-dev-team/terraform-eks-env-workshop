@@ -6,6 +6,26 @@ resource "kubernetes_namespace" "keycloak" {
   }
 }
 
+resource "kubernetes_secret" "keycloak-admin" {
+  count = var.keycloak_enabled ? 1 : 0
+
+  metadata {
+    namespace = "keycloak"
+    name      = "keycloak-admin"
+  }
+
+  type = "Opaque"
+
+  data = {
+    "username" = "admin"
+    "password" = "password"
+  }
+
+  depends_on = [
+    kubernetes_namespace.keycloak,
+  ]
+}
+
 resource "kubernetes_secret" "keycloak-realm" {
   metadata {
     namespace = "keycloak"
@@ -51,6 +71,7 @@ resource "helm_release" "keycloak" {
   }
 
   depends_on = [
+    kubernetes_secret.keycloak-admin,
     kubernetes_secret.keycloak-realm,
     var.module_depends_on
   ]

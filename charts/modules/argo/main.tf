@@ -28,23 +28,23 @@ resource "helm_release" "argo" {
   ]
 }
 
-# resource "helm_release" "argo-events" {
-#   count      = var.argo_count ? 1 : 0
-#   repository = "https://argoproj.github.io/argo-helm"
-#   chart      = "argo-events"
-#   version    = var.argo_argo_events_version
+resource "helm_release" "argo-events" {
+  count      = var.argo_count ? 1 : 0
+  repository = "https://argoproj.github.io/argo-helm"
+  chart      = "argo-events"
+  version    = var.argo_argo_events_version
 
-#   namespace = "argo-events"
-#   name      = "argo-events"
+  namespace = "argo-events"
+  name      = "argo-events"
 
-#   values = [
-#     file("./modules/argo/values/argo-events.yaml")
-#   ]
+  values = [
+    file("./modules/argo/values/argo-events.yaml")
+  ]
 
-#   wait = false
+  wait = false
 
-#   create_namespace = true
-# }
+  create_namespace = true
+}
 
 resource "helm_release" "argo-gatekeeper" {
   count = var.argo_count ? 1 : 0

@@ -21,6 +21,7 @@ export PATH=~/.local/bin:$PATH
 brew install terraform
 brew install terragrunt
 brew install direnv
+brew install tfenv
 ```
 
 ### Setup .envrc

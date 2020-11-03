@@ -52,7 +52,7 @@ resource "helm_release" "prometheus-operator" {
 }
 
 resource "helm_release" "prometheus-alert-rules" {
-  repository = "https://kubernetes-charts-incubator.storage.googleapis.com"
+  repository = "https://charts.helm.sh/incubator"
   chart      = "raw"
 
   namespace = "monitor"

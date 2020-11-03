@@ -22,7 +22,7 @@ resource "helm_release" "nginx-ingress" {
 ### Cert manager
 
 resource "helm_release" "cert-manager-issuers" {
-  repository = "https://kubernetes-charts-incubator.storage.googleapis.com"
+  repository = "https://charts.helm.sh/incubator"
   chart      = "raw"
 
   namespace = "cert-manager"

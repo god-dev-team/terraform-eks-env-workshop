@@ -20,6 +20,30 @@ ingress:
       hosts:
         - grafana.godapp.de
 
+# tolerations:
+#   - key: node-role
+#     operator: Equal
+#     value: devops
+#     effect: NoSchedule
+
+# affinity:
+#   nodeAffinity:
+#     # requiredDuringSchedulingIgnoredDuringExecution:
+#     #   nodeSelectorTerms:
+#     #     - matchExpressions:
+#     #         - key: node-role
+#     #           operator: In
+#     #           values:
+#     #             - ops
+#     preferredDuringSchedulingIgnoredDuringExecution:
+#       - weight: 1
+#         preference:
+#           matchExpressions:
+#             - key: node-role
+#               operator: In
+#               values:
+#                 - devops
+
 grafana.ini:
   server:
     root_url: "https://grafana.godapp.de/"
@@ -73,14 +97,14 @@ dashboardProviders:
 
 dashboards:
   default:
-    # https://grafana.com/dashboards/
+    # https://grafana.com/grafana/dashboards/
     kube-cluster:
       gnetId: 9797
-      revision: 9
+      revision: 14
       datasource: Prometheus
     kube-deployment:
       gnetId: 9679
-      revision: 8
+      revision: 9
       datasource: Prometheus
     jenkins-overview:
       gnetId: 12444
@@ -104,4 +128,10 @@ dashboards:
       datasource: Prometheus
     nginx-ingress:
       url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
+      datasource: Prometheus
+    argo-cd:
+      url: https://raw.githubusercontent.com/argoproj/argo-cd/master/examples/dashboard.json
+      datasource: Prometheus
+    argo-rollouts:
+      url: https://raw.githubusercontent.com/argoproj/argo-rollouts/master/examples/dashboard.json
       datasource: Prometheus

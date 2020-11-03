@@ -1,7 +1,7 @@
 {
     "variable": {
       "bitnami_external_dns": {
-        "default": "3.4.1", 
+        "default": "3.5.1", 
         "description": "bitnami/external-dns"
       }, 
       "codecentric_keycloak": {
@@ -13,7 +13,7 @@
         "description": "gabibbo97/keycloak-gatekeeper"
       }, 
       "jetstack_cert_manager": {
-        "default": "v1.0.2", 
+        "default": "1.1.0-alpha.1", 
         "description": "jetstack/cert-manager"
       }, 
       "oteemo_sonarqube": {
@@ -57,7 +57,7 @@
         "description": "argo/argo"
       }, 
       "argo_argo_cd": {
-        "default": "2.7.4", 
+        "default": "2.9.5", 
         "description": "argo/argo-cd"
       }, 
       "argo_argo_events": {
@@ -65,7 +65,7 @@
         "description": "argo/argo-events"
       }, 
       "argo_argo_rollouts": {
-        "default": "0.3.6", 
+        "default": "0.3.8", 
         "description": "argo/argo-rollouts"
       }, 
       "stable_weave_scope": {

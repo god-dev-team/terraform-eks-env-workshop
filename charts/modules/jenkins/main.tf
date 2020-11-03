@@ -2,7 +2,7 @@
 
 resource "helm_release" "jenkins" {
   count      = var.jenkins_count ? 1 : 0
-  repository = "https://kubernetes-charts.storage.googleapis.com"
+  repository = "https://charts.helm.sh/stable"
   chart      = "jenkins"
   version    = var.jenkins_version
 

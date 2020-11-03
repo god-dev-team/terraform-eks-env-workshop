@@ -1,5 +1,5 @@
 resource "helm_release" "nginx-ingress" {
-  repository = "https://kubernetes-charts.storage.googleapis.com"
+  repository = "https://charts.helm.sh/stable"
   chart      = "nginx-ingress"
   version    = var.stable_nginx_ingress_version
 
@@ -83,7 +83,7 @@ resource "helm_release" "external-dns" {
 ### Metrics server
 
 resource "helm_release" "metrics-server" {
-  repository = "https://kubernetes-charts.storage.googleapis.com"
+  repository = "https://charts.helm.sh/stable"
   chart      = "metrics-server"
   version    = var.stable_metrics_server_version
 

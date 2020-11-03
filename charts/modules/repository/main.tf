@@ -1,6 +1,6 @@
 resource "helm_release" "chartmuseum" {
   count      = var.chartmuseum_count ? 1 : 0
-  repository = "https://kubernetes-charts.storage.googleapis.com"
+  repository = "https://charts.helm.sh/stable"
   chart      = "chartmuseum"
   version    = var.stable_chartmuseum_version
 

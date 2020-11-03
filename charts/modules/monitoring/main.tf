@@ -1,7 +1,7 @@
 # monitor
 
 resource "helm_release" "grafana" {
-  repository = "https://kubernetes-charts.storage.googleapis.com"
+  repository = "https://charts.helm.sh/stable"
   chart      = "grafana"
   version    = var.stable_grafana_version
 
@@ -19,7 +19,7 @@ resource "helm_release" "grafana" {
 }
 
 resource "helm_release" "prometheus-adapter" {
-  repository = "https://kubernetes-charts.storage.googleapis.com"
+  repository = "https://charts.helm.sh/stable"
   chart      = "prometheus-adapter"
   version    = var.stable_prometheus_adapter_version
 
@@ -36,7 +36,7 @@ resource "helm_release" "prometheus-adapter" {
 }
 
 resource "helm_release" "prometheus-operator" {
-  repository = "https://kubernetes-charts.storage.googleapis.com"
+  repository = "https://charts.helm.sh/stable"
   chart      = "prometheus-operator"
   version    = var.stable_prometheus_operator_version
 

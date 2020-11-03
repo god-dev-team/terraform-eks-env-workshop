@@ -64,7 +64,7 @@ data "aws_iam_policy_document" "cluster_autoscaler" {
 
 resource "helm_release" "cluster-autoscaler" {
 
-  repository = "https://kubernetes-charts.storage.googleapis.com"
+  repository = "https://charts.helm.sh/stable"
   chart      = "cluster-autoscaler"
   version    = "7.3.4"
 
@@ -112,7 +112,7 @@ resource "helm_release" "cluster-autoscaler" {
 }
 
 resource "helm_release" "k8s-spot-termination-handler" {
-  repository = "https://kubernetes-charts.storage.googleapis.com"
+  repository = "https://charts.helm.sh/stable"
   chart      = "k8s-spot-termination-handler"
   version    = "1.4.9"
 

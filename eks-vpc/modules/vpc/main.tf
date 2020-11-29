@@ -1,6 +1,6 @@
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "v2.48.0"
+  version = "2.48.0"
 
   name = "${var.environment}-${var.cluster_name}"
 

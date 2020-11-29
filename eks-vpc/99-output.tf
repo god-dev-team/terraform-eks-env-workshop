@@ -7,5 +7,5 @@ output "region" {
 }
 
 output "vpc_id" {
-  value = module.network.vpc_id
+  value = module.vpc.vpc_id
 }

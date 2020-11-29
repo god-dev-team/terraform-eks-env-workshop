@@ -88,38 +88,3 @@ variable "spot_price" {
   type    = string
   default = "0.20"
 }
-
-# variable "map_users" {
-#   description = "Additional IAM users to add to the aws-auth configmap."
-#   type = list(object({
-#     userarn  = string
-#     username = string
-#     groups   = list(string)
-#   }))
-
-#   default = [
-#     {
-#       userarn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/tgaleev"
-#       username = "tgaleev"
-#       groups   = ["system:masters"]
-#     },
-#   ]
-# }
-
-# variable "map_roles" {
-#   description = "Additional IAM roles to add to the aws-auth configmap."
-#   type = list(object({
-#     rolearn  = string
-#     username = string
-#     groups   = list(string)
-#   }))
-
-#   default = [
-#   ]
-# }
-
-# variable "map_accounts" {
-#   description = "Additional AWS account numbers to add to the aws-auth configmap."
-#   type        = list(string)
-#   default     = []
-# }

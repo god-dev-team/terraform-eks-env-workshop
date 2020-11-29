@@ -19,18 +19,21 @@ module "vpc" {
   enable_dns_support   = true
 
   public_subnet_tags = {
-    Name                                        = "${var.environment}-public"
+    Name                                        = "${var.environment}-${var.cluster_name}-public"
     KubernetesCluster                           = var.cluster_name
+    Environment                                 = var.environment
     "kubernetes.io/role/elb"                    = ""
     "kubernetes.io/cluster/${var.cluster_name}" = "owned"
+    "kubernetes.io/cluster/${var.cluster_name}" = "shared"
   }
 
   private_subnet_tags = {
-    Name = "${var.environment}-private"
+    Name                                        = "${var.environment}-${var.cluster_name}-private"
+    "kubernetes.io/cluster/${var.cluster_name}" = "shared"
   }
 
   tags = {
-    Name        = var.environment
+    Name        = "${var.environment}-${var.cluster_name}"
     Environment = var.environment
     Terraform   = "true"
   }

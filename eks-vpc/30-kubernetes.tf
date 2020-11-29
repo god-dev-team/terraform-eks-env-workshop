@@ -15,8 +15,8 @@ module "kubernetes" {
   instance_pools = var.spot_instance_pools
 
   aws_region      = data.aws_region.current.name
-  vpc_id          = module.network.vpc_id
-  private_subnets = module.network.private_subnets
+  vpc_id          = module.vpc.vpc_id
+  private_subnets = module.vpc.private_subnets
 
   map_users    = local.map_users
   map_roles    = local.map_roles

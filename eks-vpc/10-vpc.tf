@@ -1,5 +1,5 @@
-module "network" {
-  source             = "./modules/network"
+module "vpc" {
+  source             = "./modules/vpc"
   environment        = var.environment
   availability_zones = var.availability_zones
   cluster_name       = var.cluster_name

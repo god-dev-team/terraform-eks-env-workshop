@@ -1,8 +1,18 @@
 version: 2
 updates:
 - package-ecosystem: terraform
-  directory: "/"
+  directory: "/eks-vpc"
   schedule:
     interval: daily
     time: "04:00"
   open-pull-requests-limit: 10
+  reviewers:
+  - timurgaleev
+- package-ecosystem: terraform
+  directory: "/charts"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  reviewers:
+  - timurgaleev

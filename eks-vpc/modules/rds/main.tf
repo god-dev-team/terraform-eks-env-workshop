@@ -1,6 +1,6 @@
 module "mysql_server_sg" {
   source      = "terraform-aws-modules/security-group/aws//modules/mysql"
-  version     = "~> 3.0"
+  version     = "~> 4.3"
   name        = "${var.cluster_name}mysql"
   description = "Security group for MySQL"
   vpc_id      = var.vpc_id

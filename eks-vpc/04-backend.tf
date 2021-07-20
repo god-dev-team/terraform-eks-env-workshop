@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 0.12"
+  required_version = ">= 0.14"
   backend "s3" {
     bucket         = "tfstate-demo-infra"
     key            = "terraform/states/eks.tfstate"

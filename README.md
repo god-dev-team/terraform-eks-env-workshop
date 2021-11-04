@@ -3,7 +3,8 @@
 [![GitHub Actions status](https://github.com/GOD-mbh/terraform-eks-env-workshop/workflows/Build-Push/badge.svg)](https://github.com/GOD-mbh/terraform-eks-env-workshop/actions)
 [![GitHub Releases](https://img.shields.io/github/release/GOD-mbh/terraform-eks-env-workshop.svg)](https://github.com/GOD-mbh/terraform-eks-env-workshop/releases)
 
-> :warning: We split the modules and migrated the repository to [god-aws-eks-env](https://github.com/GOD-mbh/god-aws-eks-env). Modules named as https://github.com/GOD-mbh/god-terraform-'name'/tree/main
+> :warning: The repository may be out of date
+>  We split the modules and migrated the repository to [god-aws-eks-env](https://github.com/GOD-mbh/god-aws-eks-env). Modules named as https://github.com/GOD-mbh/god-terraform-'name'/tree/main
 
 Terraform and helm charts to provide deployment of the full EKS cluster
 

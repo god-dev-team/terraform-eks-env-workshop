@@ -32,15 +32,15 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Rocket.Chat Notification
-        uses: RocketChat/Rocket.Chat.GitHub.Action.Notification@master
-        if: always()
-        with:
-          type: ${{ job.status }}
-          job_name: ':rocket: *Tests passed ${{ github.ref }}*'
-          # mention: 'here'
-          # mention_if: 'failure'
-          # channel: '#github'
-          commit: true
-          url: ${{ secrets.ROCKETCHAT_WEBHOOK }}
-          token: ${{ secrets.GITHUB_TOKEN}}
+      # - name: Rocket.Chat Notification
+      #   uses: RocketChat/Rocket.Chat.GitHub.Action.Notification@master
+      #   if: always()
+      #   with:
+      #     type: ${{ job.status }}
+      #     job_name: ':rocket: *Tests passed ${{ github.ref }}*'
+      #     # mention: 'here'
+      #     # mention_if: 'failure'
+      #     # channel: '#github'
+      #     commit: true
+      #     url: ${{ secrets.ROCKETCHAT_WEBHOOK }}
+      #     token: ${{ secrets.GITHUB_TOKEN}}

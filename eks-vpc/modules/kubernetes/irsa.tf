@@ -1,6 +1,6 @@
 module "iam_assumable_role_admin" {
   source                        = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
-  version                       = "~> v4.8.0"
+  version                       = "~> v4.9.0"
   create_role                   = true
   role_name                     = "cluster-autoscaler"
   provider_url                  = replace(module.eks.cluster_oidc_issuer_url, "https://", "")

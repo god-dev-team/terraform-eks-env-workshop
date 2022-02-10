@@ -1,7 +1,7 @@
 module "eks" {
 
   source          = "terraform-aws-modules/eks/aws"
-  version         = "18.3.0"
+  version         = "18.5.1"
   cluster_name    = var.cluster_name
   cluster_version = var.cluster_version
   subnets         = var.private_subnets

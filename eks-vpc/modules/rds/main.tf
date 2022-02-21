@@ -16,7 +16,7 @@ resource "random_string" "dbpassword" {
 
 module "mysql" {
   source  = "terraform-aws-modules/rds/aws"
-  version = "~> 3.3"
+  version = "~> 4.1"
 
   identifier = "demo-db"
 
